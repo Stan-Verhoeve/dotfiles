@@ -1,0 +1,25 @@
+
+[colors]
+primary.background = "#0b2a0b"  # very dark green, almost black
+primary.foreground = "#a6f07a"  # bright neon green
+
+normal.black   = "#0b2a0b"
+normal.red     = "#4caf50"  # medium forest green
+normal.green   = "#7fff00"  # neon green
+normal.yellow  = "#9acd32"  # yellow-green
+normal.blue    = "#2e8b57"  # sea green
+normal.magenta = "#55aa55"  # muted green
+normal.cyan    = "#66ff99"  # light mint green
+normal.white   = "#a6f07a"  # bright neon green
+
+bright.black   = "#2e4a2e"  # dark moss green
+bright.red     = "#6ccc6c"  # medium bright green
+bright.green   = "#b0ff7f"  # lighter neon green
+bright.yellow  = "#b6db7a"  # soft chartreuse
+bright.blue    = "#4ac68a"  # muted teal-green
+bright.magenta = "#7ade7a"  # pale green
+bright.cyan    = "#99ffcc"  # pastel mint
+bright.white   = "#e6ffcc"  # pale lime green
+
+[window]
+opacity = 0.5

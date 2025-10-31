@@ -1,0 +1,2 @@
+# Import the currently active theme
+general.import = ["~/.config/alacritty/colors.toml"]

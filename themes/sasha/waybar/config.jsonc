@@ -1,0 +1,146 @@
+{
+  "layer": "overlay",
+  "modules-left": ["hyprland/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["bluetooth", "network", "pulseaudio", "battery", "custom/power"],
+  
+
+  "hyprland/workspaces": {
+    "disable-click": false,
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}",
+    "warp-on-scroll": false,
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    },
+  },
+
+  "bluetooth": {
+    // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
+    "format": " {status}",
+    "format-disabled": "", // an empty format will hide the module
+    "format-connected": " {num_connections} connected",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "on-click": "rofi-bluetooth"
+  },
+
+  "network": {
+    //"interface": "wlp2s0",
+    "format-wifi": "NET:{icon}",
+    "format-disconnected": "NET:[X]",
+    "format-icons": [
+      "[_]",
+      "[▁]",
+      "[▂]",
+      "[▃]",
+      "[▄]",
+      "[▅]",
+      "[▆]",
+      "[▇]"
+    ],
+    "on-click": "alacritty -e nmtui"
+  },
+  
+
+  "pulseaudio": {
+    "format-muted":"VOL:[XX]",
+    "format": "VOL:{icon}",
+    "format-icons": [
+      "[__]",
+      "[_▁]",
+      "[▁▁]",
+      "[▁▂]",
+      "[▂▂]",
+      "[▂▃]",
+      "[▃▃]",
+      "[▃▄]",
+      "[▄▄]",
+      "[▄▅]", 
+      "[▅▅]",
+      "[▅▆]",
+      "[▆▆]",
+      "[▆▇]",
+      "[▇▇]"
+    ],
+    "max-volume": 100,
+    "scroll-step": 5,
+    "on-click": "pavucontrol"
+  },
+
+  /*"clock": {
+    "format": "{:%a %d %b %R}",
+    "on-click": "alacritty -e sh -c 'cal; read'",
+  },*/
+    
+
+
+  "clock": {
+    "format": "{:%a %d %b %R}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months":     "<span color='#ffb7ff'>{}</span>",
+        "days":       "<span color='#ff66cc'><b>{}</b></span>",
+        "weeks":      "<span color='#00fff7'><b>W{}</b></span>",
+        "weekdays":   "<span color='#00fff7'><b>{}</b></span>",
+        "today":      "<span color='#ffff00'><b><u>{}</u></b></span>"
+      }
+    }
+  
+  /*"actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }*/
+  },
+
+  "battery": {
+    "bat": "BAT1",
+    "adapter": "ACAD",
+    "format": "BAT:{icon}{capacity}%[AC]",
+    "format-discharging": "BAT:{icon}{capacity}%",
+    "tooltip": true,
+    "interval": 1,
+    "format-icons": [
+      "[__]",
+      "[_▁]",
+      "[▁▁]",
+      "[▁▂]",
+      "[▂▂]",
+      "[▂▃]",
+      "[▃▃]",
+      "[▃▄]",
+      "[▄▄]",
+      "[▄▅]",
+      "[▅▅]",
+      "[▅▆]",
+      "[▆▆]",
+      "[▆▇]",
+      "[▇▇]"
+    ]
+  },
+
+  "custom/power": {
+    "format": " ⏻",
+    "tooltip": false,
+    "on-click": "exec wlogout -b 3 -c 3 -r 1 -p layer-shell"
+  }
+}

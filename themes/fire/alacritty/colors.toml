@@ -1,0 +1,25 @@
+
+[colors]
+primary.background = "#3a0e00"  # dark ember red
+primary.foreground = "#ffbb88"  # glowing ember orange
+
+normal.black   = "#3a0e00"
+normal.red     = "#ff4500"  # vivid flame red
+normal.green   = "#ff7f00"  # bright orange
+normal.yellow  = "#ffbf00"  # warm gold
+normal.blue    = "#b34700"  # burnt sienna
+normal.magenta = "#ff6f61"  # coral red
+normal.cyan    = "#ff8c00"  # dark orange
+normal.white   = "#ffbb88"  # glowing ember orange
+
+bright.black   = "#5a1f00"  # smoky dark brown
+bright.red     = "#ff6347"  # tomato red
+bright.green   = "#ff9933"  # bright tangerine
+bright.yellow  = "#ffd700"  # gold
+bright.blue    = "#cc6600"  # deep copper
+bright.magenta = "#ff8c69"  # light coral
+bright.cyan    = "#ffb84d"  # honey orange
+bright.white   = "#ffe5b4"  # pale peach
+
+[window]
+opacity = 0.5

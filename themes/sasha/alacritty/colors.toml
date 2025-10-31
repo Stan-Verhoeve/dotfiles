@@ -1,0 +1,26 @@
+
+
+[colors]
+primary.background = "#2a003d"  # Dark purple but not too dark
+primary.foreground = "#ffb7ff"  # Soft bright pink
+
+normal.black   = "#2a003d"
+normal.red     = "#ff66cc"  # Bright pink
+normal.green   = "#00ffcc"  # Neon teal-green
+normal.yellow  = "#ffed66"  # Soft yellow
+normal.blue    = "#cc33ff"  # Vivid purple
+normal.magenta = "#ff4dff"  # Intense magenta-pink
+normal.cyan    = "#33ffff"  # Bright cyan
+normal.white   = "#ffb7ff"  # Soft bright pink
+
+bright.black   = "#53007f"  # Dark violet purple
+bright.red     = "#ff99e6"  # Light neon pink
+bright.green   = "#66fff2"  # Light neon teal
+bright.yellow  = "#fff966"  # Neon yellow
+bright.blue    = "#d27fff"  # Lighter purple
+bright.magenta = "#ff66ff"  # Neon magenta-pink
+bright.cyan    = "#66ffff"  # Neon cyan
+bright.white   = "#ffffff"  # Pure white
+
+[window]
+opacity = 0.5

@@ -1,0 +1,6 @@
+@define-color bg #001f3f;
+@define-color fg #cce6ff;
+@define-color border #00ffff;
+@define-color maintxt #66ffff;       /* from accent */
+@define-color alttxt #99ffff;       /* from highlight */
+@define-color highlight #bb99ff;    /* new contrast: soft lavender */

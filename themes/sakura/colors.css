@@ -1,0 +1,6 @@
+@define-color bg #442233;       /* deep muted purple */
+@define-color fg #f0d6e3;       /* soft pink/white for text */
+@define-color border #e29ec4;   /* subtle pink accent */
+@define-color maintxt #d77fbf;  /* medium pink main modules */
+@define-color alttxt #c68fa6;   /* secondary softer pink/purple */
+@define-color highlight #88e0c3;/* soft mint green for contrast */

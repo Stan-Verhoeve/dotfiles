@@ -1,0 +1,121 @@
+{
+  "layer": "overlay",
+  "modules-left": ["hyprland/workspaces"],
+  //"modules-left": ["network", "pulseaudio"],
+  "modules-center": ["clock"],
+  "modules-right": ["network", "pulseaudio", "battery", "custom/power"],
+  
+
+  "hyprland/workspaces": {
+    "disable-click": false,
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}",
+    "warp-on-scroll": false,
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    },
+
+  },
+  "network": {
+    //"interface": "wlp2s0",
+    "format-wifi": "NET:{icon}",
+    "format-disconnected": "NET:[X]",
+    "format-icons": [
+      "[_]",
+      "[▁]",
+      "[▂]",
+      "[▃]",
+      "[▄]",
+      "[▅]",
+      "[▆]",
+      "[▇]"
+    ],
+    "on-click": "alacritty -e nmtui"
+  },
+  
+
+  "pulseaudio": {
+    "format-muted":"VOL:[XX]",
+    "format": "VOL:{icon}",
+    "format-icons": [
+      "[__]",
+      "[_▁]",
+      "[▁▁]",
+      "[▁▂]",
+      "[▂▂]",
+      "[▂▃]",
+      "[▃▃]",
+      "[▃▄]",
+      "[▄▄]",
+      "[▄▅]", 
+      "[▅▅]",
+      "[▅▆]",
+      "[▆▆]",
+      "[▆▇]",
+      "[▇▇]"
+    ],
+    "max-volume": 100,
+    "scroll-step": 5
+  },
+
+
+  "clock": {
+    "format": "{:%a %d %b %R}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffcc66'>{}</span>",
+        "days": "<span color='#ff6600'><b>{}</b></span>",
+        "weeks": "<span color='#ff9933'><b>W{}</b></span>",
+        "weekdays": "<span color='#ff9933'><b>{}</b></span>",
+        "today": "<span color='#33ffff'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+
+  "battery": {
+    "bat": "BAT1",
+    "adapter": "ACAD",
+    "format": "BAT:{icon}{capacity}%[AC]",
+    "format-discharging": "BAT:{icon}{capacity}%",
+    "tooltip": true,
+    "interval": 1,
+    "format-icons": [
+      "[__]",
+      "[_▁]",
+      "[▁▁]",
+      "[▁▂]",
+      "[▂▂]",
+      "[▂▃]",
+      "[▃▃]",
+      "[▃▄]",
+      "[▄▄]",
+      "[▄▅]",
+      "[▅▅]",
+      "[▅▆]",
+      "[▆▆]",
+      "[▆▇]",
+      "[▇▇]"
+    ]
+  },
+
+  "custom/power": {
+    "format": " ⏻",
+    "tooltip": false,
+    "on-click": "exec wlogout -b 3 -c 3 -r 1 -p layer-shell"
+  }
+}

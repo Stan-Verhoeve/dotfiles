@@ -1,0 +1,25 @@
+
+[colors]
+primary.background = "#0f1e2e"  # deep navy blue
+primary.foreground = "#cde8ff"  # pale icy blue
+
+normal.black   = "#0f1e2e"
+normal.red     = "#4a8fe7"  # cool muted blue
+normal.green   = "#a3d8f4"  # soft icy teal
+normal.yellow  = "#a1cfff"  # light powder blue
+normal.blue    = "#3b7dd8"  # strong blue
+normal.magenta = "#6a93d4"  # dusty blue-purple
+normal.cyan    = "#88c9f9"  # bright ice blue
+normal.white   = "#cde8ff"
+
+bright.black   = "#4a739c"  # muted blue-gray
+bright.red     = "#72aaff"  # bright cool blue
+bright.green   = "#b6defb"  # light cyan-blue
+bright.yellow  = "#c0e0ff"  # very pale blue
+bright.blue    = "#7bb1ff"  # light sky blue
+bright.magenta = "#9bb9d6"  # pale slate blue
+bright.cyan    = "#a6d8ff"  # soft light blue
+bright.white   = "#eaf6ff"  # very pale icy white
+
+[window]
+opacity = 0.5
