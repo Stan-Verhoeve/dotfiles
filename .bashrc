@@ -32,7 +32,7 @@ PROMPT_DIRTRIM=1
 # ------------
 use-theme() {
     # Directory where themes live
-    local THEMES_DIR="$HOME/.dotfiles/themes"
+    local THEMES_DIR="$HOME/themes"
     local THEME=$1
 
     # Match arugment
@@ -60,7 +60,7 @@ use-theme() {
         ;;
     esac
     
-    local SELECTED_THEME_DIR="$HOME/.dotfiles/themes/$THEME"
+    local SELECTED_THEME_DIR="$THEMES_DIR/$THEME"
     local COLORS_FILE="$SELECTED_THEME_DIR/colors.css"
     
     # Check if theme exists
