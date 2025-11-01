@@ -16,6 +16,8 @@ alias ...="cd ../../.."
 
 # Git aliases
 alias gs="git status"
+alias gd="git diff $1"
+alias ga="git add $1"
 
 # Quick path aliases
 alias gotouni="cd $HOME/documents/university"
