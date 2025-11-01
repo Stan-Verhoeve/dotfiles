@@ -1,12 +1,32 @@
-#waybar {
+window#waybar {
   font-family: "Fira Code", monospace;
   font-weight: 500;
-  background: @bg; 
-  color: @fg; 
-  border-bottom: 3px solid @border;
+  /* background: @bg; */
+  background-color: rgba(0,0,0,0); /* Transparant */
+  color: @fg;
+  /* border-bottom: 3px solid @border; */
+  /* border: 2px solid @border;
+  border-radius: 10px; */
+  border: none;
 }
 
+window#waybar.hidden {
+  opacity: 0.2;
+}
 
+window#waybar.empty #window {
+  background-color: rgba(0,0,0,0); /* Transparent */
+  border: none  /* Turn off border if title empty */
+}
+.modules-right {
+    margin: 3px 0px 2px 0;
+}
+.modules-center {
+    margin: 3px 5px 2px 5px;
+}
+.modules-left {
+    margin: 3px 0 2px 0px;
+}
 tooltip {
     background: @bg;
     color: @fg;
@@ -24,7 +44,7 @@ tooltip {
   color: @alttxt;
 }
 
-#pulseaudio {
+#wireplumber {
   color: @alttxt;
 }
 
@@ -38,7 +58,8 @@ tooltip {
  ****************/
 #workspaces button {
   color: @maintxt;
-  background: transparent;
+  /* background: transparent; */
+  background: @bg;
   border: none;
   padding: 0 1px;
   font-weight: normal;
@@ -52,3 +73,19 @@ tooltip {
 #workspaces button:hover {
   background: @bg /*rgba(255, 77, 166, 0.15);  light pink background */
 }
+
+#clock,
+#network,
+#battery,
+#wireplumber,
+#bluetooth,
+#window,
+#custom-power,
+#workspaces {
+  background-color: @bg;
+  border-radius: 10px;
+  margin: 4px;
+  padding: 4px 8px;
+  border: 2px solid @border;
+}
+

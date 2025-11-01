@@ -1,17 +1,35 @@
 {
-  "layer": "overlay",
-  "modules-left": ["hyprland/workspaces"],
-  "modules-center": ["clock"],
-  "modules-right": ["bluetooth", "network", "pulseaudio", "battery", "custom/power"],
-  
+  "position": "top",  // Where to place waybar
+  "height": 30,  // Size / height of waybar (30 pixels)
+  "spacing": 4,  // Spacing between modules (4 pixels)
+  // "layer": "overlay",
 
+  // Order of modules
+  "modules-left": [
+    "hyprland/workspaces",  // 'Desktops' of sorts
+    "clock"
+  ],
+  "modules-center": [
+    "hyprland/window"  // Current active window
+  ],
+  "modules-right": [
+    "bluetooth",
+    "network",
+    "wireplumber",  // Audio
+    "battery",
+    "custom/power"
+  ],
+
+  /******************/
+  /* START OF TILES */
+  /******************/
   "hyprland/workspaces": {
-    "disable-click": false,
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{name}",
-    "warp-on-scroll": false,
-    "persistent-workspaces": {
+    "disable-click": false,  // Disallow switching by clicking
+    "disable-scroll": true,  // Disallow switching by scrolling
+    "all-outputs": true,  // Show all windows (instead of only active ones)
+    "format": "{name}",  // How to display windows
+    "warp-on-scroll": false,  // No clue what it does
+    "persistent-workspaces": {  // Make all workspaces available by default
       "1": [],
       "2": [],
       "3": [],
@@ -22,18 +40,22 @@
       "8": [],
       "9": [],
       "10": []
-    },
+    }
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 40, // comment out if you have enough space
+    "all-outputs": true
   },
 
   "bluetooth": {
     // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
-    "format": " {status}",
+    "format": "BT: {status}",
     "format-disabled": "", // an empty format will hide the module
-    "format-connected": " {num_connections} connected",
-    "tooltip-format": "{controller_alias}\t{controller_address}",
-    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
-    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
-    "on-click": "rofi-bluetooth"
+    "format-connected": "BT: {device_alias}",
+    "format-connected-battery": "BT: {device_alias} {device_battery_percentage}%",
+    "on-click": "blueman-manager"
   },
 
   "network": {
@@ -53,10 +75,12 @@
     "on-click": "alacritty -e nmtui"
   },
   
-
-  "pulseaudio": {
-    "format-muted":"VOL:[XX]",
+  "wireplumber": {
+    "scroll-step": 5, // %, can be a float
     "format": "VOL:{icon}",
+    "format-bluetooth": "BT VOL:{icon}",
+    "format-bluetooth-muted": "BT VOL:[XX]",
+    "format-muted": "VOL:[XX]",
     "format-icons": [
       "[__]",
       "[_▁]",
@@ -74,17 +98,8 @@
       "[▆▇]",
       "[▇▇]"
     ],
-    "max-volume": 100,
-    "scroll-step": 5,
-    "on-click": "pavucontrol"
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
   },
-
-  /*"clock": {
-    "format": "{:%a %d %b %R}",
-    "on-click": "alacritty -e sh -c 'cal; read'",
-  },*/
-    
-
 
   "clock": {
     "format": "{:%a %d %b %R}",
@@ -113,12 +128,16 @@
   },
 
   "battery": {
-    "bat": "BAT1",
-    "adapter": "ACAD",
-    "format": "BAT:{icon}{capacity}%[AC]",
-    "format-discharging": "BAT:{icon}{capacity}%",
-    "tooltip": true,
-    "interval": 1,
+    "states": {
+	"warning": 30,
+	"critical": 10
+    },
+    "bat": "BAT0",  // Which battery to read from
+    "adapter": "ACAD",  // 
+    "format": "BAT:{icon}{capacity}%[AC]",  // Format when charging
+    "format-discharging": "BAT:{icon}{capacity}%",  // Format when not charging
+    "tooltip": true,  // Show estimated battery life
+    "interval": 1,  // How often to refresh
     "format-icons": [
       "[__]",
       "[_▁]",
