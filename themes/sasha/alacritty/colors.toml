@@ -24,3 +24,4 @@ bright.white   = "#ffffff"  # Pure white
 
 [window]
 opacity = 0.5
+dynamic_title = true
