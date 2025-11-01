@@ -24,7 +24,6 @@ alias gotouni="cd $HOME/documents/university"
 ## General settings ##
 ######################
 PROMPT_DIRTRIM=1
-
 ###############
 ## FUNCTIONS ##
 ###############
@@ -163,6 +162,19 @@ parse_git_branch() {
 }
 
 PS1='\[\033[1;32m\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\[\033[0m\]$(parse_git_branch)\$ '
+# Save original PS1
+if [[ -z "$ORIG_PS1" ]]; then
+    ORIG_PS1=$PS1
+fi
+
+# Function to update terminal title to current directory
+update_title() {
+    local dir="~${PWD#$HOME}"   # replace home with ~
+    PS1="${ORIG_PS1}\[\e]2;${dir}\a\]"
+}
+
+# Call before every prompt
+PROMPT_COMMAND=update_title
 
 
 # Activate a target nix-shell env
