@@ -161,23 +161,22 @@ parse_git_branch() {
   fi
 
   # Display branch only if inside a git repo
-  [ -n "$branch" ] && echo -e "$color($branch$unstaged$staged)\033[00m"
+  [ -n "$branch" ] && echo -e "$color($branch$unstaged$staged)"
 }
 
-PS1='\[\033[1;32m\][\[\e]0;\u@\h: \w\a\]\u@\h:\w]\[\033[0m\]$(parse_git_branch)\$ '
-# Save original PS1
-if [[ -z "$ORIG_PS1" ]]; then
-    ORIG_PS1=$PS1
-fi
+# Set PS1 to include git branch
+# Also use custom layout
+# PS1='\[\e]0;\w\a\]\[\e[32m\](\w) $(parse_git_branch)\n\[\e[32m\]❯❯ \[\e[0m\]'
 
-# Function to update terminal title to current directory
-update_title() {
-    local dir="~${PWD#$HOME}"   # replace home with ~
-    PS1="${ORIG_PS1}\[\e]2;${dir}\a\]"
+PS1='\[\e[32m\](\w) $(parse_git_branch)\n\[\e[32m\]❯❯ \[\e[0m\]'
+
+# Set terminal title to current dir
+update_terminal_title() {
+    echo -ne "\033]0;~${PWD#$HOME}\007"
 }
 
-# Call before every prompt
-PROMPT_COMMAND=update_title
+PROMPT_COMMAND=update_terminal_title
+
 
 
 # Lists colour codes with their colour
