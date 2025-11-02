@@ -26,6 +26,7 @@ alias gotouni="cd $HOME/documents/university"
 ## General settings ##
 ######################
 PROMPT_DIRTRIM=1
+
 ###############
 ## FUNCTIONS ##
 ###############
@@ -178,6 +179,15 @@ update_title() {
 # Call before every prompt
 PROMPT_COMMAND=update_title
 
+
+# Lists colour codes with their colour
+# ------------------------------------
+showcolours() {
+  for i in {0..255}; do
+    printf "\e[38;5;%dm%3d " $i $i
+    if (( (i + 1) % 8 == 0 )); then echo; fi
+  done
+}
 
 # Activate a target nix-shell env
 # -------------------------------
