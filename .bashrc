@@ -25,7 +25,6 @@ alias gotouni="cd $HOME/documents/university"
 ######################
 ## General settings ##
 ######################
-PROMPT_DIRTRIM=1
 
 ###############
 ## FUNCTIONS ##
