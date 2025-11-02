@@ -60,17 +60,25 @@
 
   "network": {
     //"interface": "wlp2s0",
-    "format-wifi": "NET:{icon}",
-    "format-disconnected": "NET:[X]",
+    "format-wifi": "NET:{essid} {icon}",
+    "format-disconnected": "<span color='#777'>NET:{essid} {icon}</span>",
     "format-icons": [
-      "[_]",
-      "[▁]",
-      "[▂]",
-      "[▃]",
-      "[▄]",
-      "[▅]",
-      "[▆]",
-      "[▇]"
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
     ],
     "on-click": "alacritty -e nmtui"
   },
@@ -79,24 +87,25 @@
     "scroll-step": 5, // %, can be a float
     "format": "VOL:{icon}",
     "format-bluetooth": "BT VOL:{icon}",
-    "format-bluetooth-muted": "BT VOL:[XX]",
-    "format-muted": "VOL:[XX]",
+    "format-bluetooth-muted": "<span color='#777'>BT VOL:{icon}</span>",
+    "format-muted": "<span color='#777'>VOL:{icon}</span>",
     "format-icons": [
-      "[__]",
-      "[_▁]",
-      "[▁▁]",
-      "[▁▂]",
-      "[▂▂]",
-      "[▂▃]",
-      "[▃▃]",
-      "[▃▄]",
-      "[▄▄]",
-      "[▄▅]", 
-      "[▅▅]",
-      "[▅▆]",
-      "[▆▆]",
-      "[▆▇]",
-      "[▇▇]"
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
     ],
     "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
   },
@@ -139,26 +148,27 @@
     "tooltip": true,  // Show estimated battery life
     "interval": 1,  // How often to refresh
     "format-icons": [
-      "[__]",
-      "[_▁]",
-      "[▁▁]",
-      "[▁▂]",
-      "[▂▂]",
-      "[▂▃]",
-      "[▃▃]",
-      "[▃▄]",
-      "[▄▄]",
-      "[▄▅]",
-      "[▅▅]",
-      "[▅▆]",
-      "[▆▆]",
-      "[▆▇]",
-      "[▇▇]"
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
     ]
   },
 
   "custom/power": {
-    "format": " ⏻",
+    "format": "⏻",
     "tooltip": false,
     "on-click": "exec wlogout -b 3 -c 3 -r 1 -p layer-shell"
   }
