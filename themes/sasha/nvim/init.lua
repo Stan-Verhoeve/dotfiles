@@ -93,6 +93,9 @@ vim.g.maplocalleader = " "
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = false
 
+-- Disable default sig handler
+vim.lsp.handlers["textDocument/signatureHelp"] = nil
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
@@ -288,6 +291,17 @@ require("lazy").setup({
 				delete = { text = "_" },
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
+			},
+		},
+	},
+
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "LspAttach",
+		opts = {
+			bind = true,
+			handler_opts = {
+				border = "rounded",
 			},
 		},
 	},
@@ -892,7 +906,7 @@ require("lazy").setup({
 			fuzzy = { implementation = "lua" },
 
 			-- Shows a signature help window while you type arguments for a function
-			signature = { enabled = true },
+			signature = { enabled = false },
 		},
 	},
 
