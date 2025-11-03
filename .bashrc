@@ -22,6 +22,9 @@ alias ga="git add $1"
 # Quick path aliases
 alias gotouni="cd $HOME/documents/university"
 
+# Quick python venv activation
+alias eft="source $HOME/python_envs/eftcamb/bin/activate"
+
 ######################
 ## General settings ##
 ######################
@@ -99,9 +102,11 @@ use-theme() {
     # Reload apps as needed
     pkill waybar
     pkill hyprpaper
+    pkill dunst
 
     nohup waybar >/dev/null 2>&1 & disown
     nohup hyprpaper >/dev/null 2>&1 & disown
+    nohup dunst >/dev/null 2>&1 & disown
 }
 
 
@@ -187,6 +192,10 @@ showcolours() {
   done
 }
 
+# List files in directory when changing into it
+# ---------------------------------------------
+cdl() { cd "$@" && ls; }
+
 # Activate a target nix-shell env
 # -------------------------------
 activate() {
@@ -200,7 +209,7 @@ activate() {
   # Search in $HOME/environments by default
   case "$dir" in 
     /*|~*) ;;  # Absolute path was given, leave as is
-    *) dir="$HOME/environments/$dir" ;;
+    *) dir="$HOME/documents/devshells/$dir" ;;
   esac
 
   # Check if environment exists
