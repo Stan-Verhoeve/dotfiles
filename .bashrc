@@ -10,9 +10,9 @@ fortune -s | cowsay -f small
 
 # Listing aliases
 alias lsa="ls -a"
-alias ..="cd .."
-alias ...="cd ../.."
-alias ...="cd ../../.."
+alias ..="cdl .."
+alias ...="cdl ../.."
+alias ...="cdl ../../.."
 
 # Git aliases
 alias gs="git status"
@@ -20,7 +20,7 @@ alias gd="git diff $1"
 alias ga="git add $1"
 
 # Quick path aliases
-alias gotouni="cd $HOME/documents/university"
+alias gotouni="cdl $HOME/documents/university"
 
 # Quick python venv activation
 alias eft="source $HOME/python_envs/eftcamb/bin/activate"
