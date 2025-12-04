@@ -4,9 +4,17 @@
 fortune -s | cowsay -f small
 # fortune -s | cowsay -f cupcake
 
+#####################
+## COLOUR SETTINGS ##
+#####################
+export LS_OPTIONS="--color=auto"
+export LS_COLORS=$LS_COLORS:"di=1;3:*.zip=0;4;31"
+
+force_color_prompt=yes
 #############
 ## ALIASES ##
 ############
+alias ls="ls $LS_OPTIONS"
 
 # Listing aliases
 alias lsa="ls -a"
@@ -200,16 +208,33 @@ cdl() { cd "$@" && ls; }
 # -------------------------------
 activate() {
   local dir="$1"
-  if [ -z "$dir" ]; then
-    echo "Usage: activate <name-of-env>"
-    echo "   or: activate <directory-containing-flake.nix>"
-    return 1
-  fi
-  
-  # Search in $HOME/environments by default
+
+  case "$dir" in
+    ""|"-h"|"--help")
+      echo "Usage: activate <name-of-env>"
+      echo "   or: activate <directory-containing-flake.nix>"
+      echo
+      echo "Options:"
+      echo "  -h, --help      Show this help message"
+      echo "  -l, --list      List available environments"
+      echo
+      echo "Example:"
+      echo "  activate eftcamb_dev"
+      return 0
+      ;;
+    "-l"|"--list")
+      echo "Available environments:"
+      for env in "$HOME/devshells"/*; do
+        [[ -d "$env" ]] && echo "  $(basename "$env")"
+      done
+      return 0
+      ;;
+  esac
+
+  # If no special flag, assume it's an environment name or directory
   case "$dir" in 
-    /*|~*) ;;  # Absolute path was given, leave as is
-    *) dir="$HOME/documents/devshells/$dir" ;;
+    /*|~*) ;;  # Absolute path, leave as is
+    *) dir="$HOME/devshells/$dir" ;;
   esac
 
   # Check if environment exists
@@ -220,7 +245,5 @@ activate() {
 
   dir="$(realpath "$dir")"
 
-  nix develop "$dir" \
-     --extra-experimental-features nix-command \
-     --extra-experimental-features flakes
+  nix develop "$dir"
 }
