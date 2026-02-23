@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Get all VPN connections from NetworkManager
+VPN_LIST=$(nmcli -t -f NAME,TYPE connection show | grep vpn | cut -d: -f1)
+
+# Get active VPN connections
+ACTIVE_VPN=$(nmcli -t -f NAME,TYPE connection show --active | grep vpn | cut -d: -f1)
+
+# Build menu dynamically
+if [ -n "$ACTIVE_VPN" ]; then
+    MENU=$(printf "%s\nDisconnect" "$VPN_LIST")
+else
+    MENU="$VPN_LIST"
+fi
+
+# Show the menu using wofi
+CHOICE=$(printf "%s" "$MENU" | wofi --dmenu -p "VPN:")
+
+# Handle selection
+if [ "$CHOICE" = "Disconnect" ]; then
+    # Disconnect all active VPNs
+    for vpn in $ACTIVE_VPN; do
+        nmcli connection down id "$vpn"
+    done
+elif [ -n "$CHOICE" ]; then
+    nmcli connection up id "$CHOICE"
+fi

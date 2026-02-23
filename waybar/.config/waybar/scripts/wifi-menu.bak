@@ -1,0 +1,119 @@
+#!/bin/bash
+
+# Get current connection status
+CONNECTED=$(nmcli -t -f NAME connection show --active | grep -v "lo" | head -n 1)
+
+# Scan for networks and format them
+NETWORKS=$(nmcli -f SSID,SECURITY,SIGNAL device wifi list | tail -n +2 | \
+    awk '{
+        ssid = $1;
+        security = $2;
+        signal = $NF;
+        
+        # Skip empty SSIDs
+        if (ssid == "--" || ssid == "") next;
+        
+        # Keep only the strongest signal for each SSID
+        if (ssid in max_signal) {
+            if (int(signal) > int(max_signal[ssid])) {
+                max_signal[ssid] = signal;
+                ssid_security[ssid] = security;
+            }
+        } else {
+            max_signal[ssid] = signal;
+            ssid_security[ssid] = security;
+        }
+    }
+    END {
+        for (ssid in max_signal) {
+            security = ssid_security[ssid];
+            signal = max_signal[ssid];
+            
+            # Build the security part
+            if (security == "--") {
+                sec_str = "🔓";
+            } else {
+                sec_str = "🔒";
+            }
+            
+            # Build signal strength indicator
+            signal_val = int(signal);
+            if (signal_val >= 75) bars = "▂▄▆█";
+            else if (signal_val >= 50) bars = "▂▄▆_";
+            else if (signal_val >= 25) bars = "▂▄__";
+            else bars = "▂___";
+            
+            printf "%s %s %s\n", sec_str, ssid, bars;
+        }
+    }' | sort)
+
+# Add special options
+OPTIONS="🔄 Rescan\n📡 Toggle WiFi\n$NETWORKS"
+
+# Show menu
+CHOSEN=$(echo -e "$OPTIONS" | wofi --dmenu --insensitive --prompt "WiFi: $CONNECTED" --width 400 --height 300)
+
+# Handle selection
+if [ -z "$CHOSEN" ]; then
+    exit 0
+elif [ "$CHOSEN" = "🔄 Rescan" ]; then
+    nmcli device wifi rescan
+    notify-send "WiFi" "Rescanning networks..."
+    sleep 2
+    exec "$0"  # Rerun the script
+elif [ "$CHOSEN" = "📡 Toggle WiFi" ]; then
+    STATUS=$(nmcli radio wifi)
+    if [ "$STATUS" = "enabled" ]; then
+        nmcli radio wifi off
+        notify-send "WiFi" "WiFi disabled"
+    else
+        nmcli radio wifi on
+        notify-send "WiFi" "WiFi enabled"
+    fi
+else
+    # Extract SSID from chosen option (remove icon and signal bars)
+    SSID=$(echo "$CHOSEN" | awk '{$1=""; $NF=""; print $0}' | sed 's/^ *//;s/ *$//')
+    
+    # Check if already connected
+    if [ "$SSID" = "$CONNECTED" ]; then
+        nmcli connection down "$SSID"
+        notify-send "WiFi" "Disconnected from $SSID"
+    else
+        # Check if we have a saved connection
+        SAVED=$(nmcli -t -f NAME connection show | grep "^$SSID$")
+        
+        if [ -n "$SAVED" ]; then
+            # Use saved connection
+            nmcli connection up "$SSID"
+            if [ $? -eq 0 ]; then
+                notify-send "WiFi" "Connected to $SSID"
+            else
+                notify-send "WiFi" "Failed to connect to $SSID"
+            fi
+        else
+            # New network - prompt for password if secured
+            SECURITY=$(nmcli -f SSID,SECURITY device wifi list | grep "^$SSID" | awk '{print $2}')
+            
+            if [ "$SECURITY" = "--" ]; then
+                # Open network
+                nmcli device wifi connect "$SSID"
+                if [ $? -eq 0 ]; then
+                    notify-send "WiFi" "Connected to $SSID"
+                else
+                    notify-send "WiFi" "Failed to connect to $SSID"
+                fi
+            else
+                # Secured network - prompt for password
+                PASSWORD=$(wofi --dmenu --password --prompt "Password for $SSID")
+                if [ -n "$PASSWORD" ]; then
+                    nmcli device wifi connect "$SSID" password "$PASSWORD"
+                    if [ $? -eq 0 ]; then
+                        notify-send "WiFi" "Connected to $SSID"
+                    else
+                        notify-send "WiFi" "Failed to connect to $SSID"
+                    fi
+                fi
+            fi
+        fi
+    fi
+fi

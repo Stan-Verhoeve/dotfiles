@@ -1,0 +1,187 @@
+@import '../colors.css';
+
+window#waybar {
+  font-family: "Fira Code", monospace;
+  font-weight: 500;
+  /* background: @bg; */
+  background-color: rgba(0,0,0,0); /* Transparant */
+  color: @fg;
+  /* border-bottom: 3px solid @border; */
+  /* border: 2px solid @border;
+  border-radius: 10px; */
+  border: none;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+window#waybar.empty #window {
+  background-color: rgba(0,0,0,0); /* Transparent */
+  border: none  /* Turn off border if title empty */
+}
+.modules-right {
+    margin: 3px 0px 2px 0;
+}
+.modules-center {
+    margin: 3px 5px 2px 5px;
+}
+.modules-left {
+    margin: 3px 0 2px 0px;
+}
+tooltip {
+    background: @bg;
+    color: @fg;
+    border: 1px solid @maintxt;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 0.85em;
+}
+#clock {
+  font-size: 1.2em;
+  color: @maintxt;
+}
+
+#network {
+  color: @alttxt;
+}
+
+#wireplumber {
+  color: @alttxt;
+}
+
+#battery {
+  color: @maintxt;
+}
+
+
+/****************
+ ** WORKSPACES **
+ ****************/
+#workspaces button {
+  color: @maintxt;
+  /* background: transparent; */
+  background: @bg;
+  border: none;
+  padding: 0 1px;
+  font-weight: normal;
+}
+
+#workspaces button.active {
+  color: @highlight;
+  font-weight: bold;
+}
+
+#workspaces button:hover {
+  background: @bg /*rgba(255, 77, 166, 0.15);  light pink background */
+}
+
+#clock,
+#network,
+#battery,
+#wireplumber,
+#bluetooth,
+#window,
+#custom-power,
+#workspaces {
+  background-color: @bg;
+  border-radius: 10px;
+  margin: 4px;
+  padding: 4px 8px;
+  border: 2px solid @border;
+}
+
+
+
+
+window.bar2#waybar {
+  font-family: "Fira Code", monospace;
+  font-weight: 500;
+  /* background: @bg; */
+  background-color: rgba(0,0,0,0); /* Transparant */
+  color: @fg;
+  /* border-bottom: 3px solid @border; */
+  /* border: 2px solid @border;
+  border-radius: 10px; */
+  border: none;
+}
+
+window.bar2#waybar.hidden {
+  opacity: 0.2;
+}
+
+window.bar2#waybar.empty #window {
+  background-color: rgba(0,0,0,0); /* Transparent */
+  border: none  /* Turn off border if title empty */
+}
+.modules-right.bar2 {
+    margin: 3px 0px 2px 0;
+}
+.modules-center.bar2 {
+    margin: 3px 5px 2px 5px;
+}
+.modules-left.bar2 {
+    margin: 3px 0 2px 0px;
+}
+tooltip {
+    background: @bg;
+    color: @fg;
+    border: 1px solid @maintxt;
+    border-radius: 4px;
+    padding: 4px 6px;
+    font-size: 0.85em;
+}
+.bar2#clock {
+  font-size: 1.2em;
+  color: @maintxt;
+}
+
+.bar2#network {
+  color: @alttxt;
+}
+
+.bar2#wireplumber {
+  color: @alttxt;
+}
+
+.bar2#battery {
+  color: @maintxt;
+}
+
+
+/****************
+ ** WORKSPACES **
+ ****************/
+.bar2#workspaces button {
+  color: @maintxt;
+  /* background: transparent; */
+  background: @bg;
+  border: none;
+  padding: 0 1px;
+  font-weight: normal;
+}
+
+.bar2#workspaces button.active {
+  color: @highlight;
+  font-weight: bold;
+}
+
+.bar2#workspaces button:hover {
+  background: @bg /*rgba(255, 77, 166, 0.15);  light pink background */
+}
+
+.bar2#clock,
+.bar2#network,
+.bar2#battery,
+.bar2#wireplumber,
+.bar2#bluetooth,
+.bar2#window,
+.bar2#custom-power,
+.bar2#workspaces {
+  background-color: @bg;
+  border-radius: 10px;
+  margin: 4px;
+  padding: 4px 8px;
+  border: 2px solid @border;
+}
+

@@ -1,0 +1,368 @@
+[
+{
+  "name": "bar1",
+  "output": "eDP-1",
+  "position": "top",  // Where to place waybar
+  "height": 30,  // Size / height of waybar (30 pixels)
+  "spacing": 4,  // Spacing between modules (4 pixels)
+  // "layer": "overlay",
+
+  // Order of modules
+  "modules-left": [
+    "hyprland/workspaces",  // 'Desktops' of sorts
+    "clock"
+  ],
+  "modules-center": [
+    "hyprland/window"  // Current active window
+  ],
+  "modules-right": [
+    "bluetooth",
+    "network",
+    "network#vpn",
+    "wireplumber",  // Audio
+    "battery",
+    "custom/power"
+  ],
+
+  /******************/
+  /* START OF TILES */
+  /******************/
+  "hyprland/workspaces": {
+    "disable-click": false,  // Disallow switching by clicking
+    "disable-scroll": true,  // Disallow switching by scrolling
+    "all-outputs": false,  // Show all windows (instead of only active ones)
+    "format": "{name}",  // How to display windows
+    "warp-on-scroll": false,  // No clue what it does
+    "persistent-workspaces": {  // Make all workspaces available by default
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    }
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 40, // comment out if you have enough space
+    "all-outputs": false
+  },
+
+  "bluetooth": {
+    // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
+    "format": "BT: {status}",
+    "format-disabled": "", // an empty format will hide the module
+    "format-connected": "BT: {device_alias}",
+    "format-connected-battery": "BT: {device_alias} {device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+
+  "network": {
+    //"interface": "wlp2s0",
+    "interface": "wlan0",
+    "format-wifi": "NET:{essid} {icon}",
+    "format-disconnected": "<span color='#777'>NET:{essid} {icon}</span>",
+    "format-icons": [
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
+    ],
+    "on-click": "/home/stan/dotfiles/themes/sasha/waybar/scripts/wifi-menu"
+    // "on-click": "alacritty -e nmtui"
+  },
+
+  "network#vpn": {
+    "interface": "tun0",
+    "format": "VPN",
+    "format-disconnected": "<span color='#777'>VPN</span>",
+    "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+    "on-click": "./scripts/vpn-menu"
+  },
+
+  "wireplumber": {
+    "scroll-step": 5, // %, can be a float
+    "format": "VOL:{icon}",
+    "format-bluetooth": "BT VOL:{icon}",
+    "format-bluetooth-muted": "<span color='#777'>BT VOL:{icon}</span>",
+    "format-muted": "<span color='#777'>VOL:{icon}</span>",
+    "format-icons": [
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
+    ],
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  "clock": {
+    "format": "{:%a %d %b %R}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months":     "<span color='#ffb7ff'>{}</span>",
+        "days":       "<span color='#ff66cc'><b>{}</b></span>",
+        "weeks":      "<span color='#00fff7'><b>W{}</b></span>",
+        "weekdays":   "<span color='#00fff7'><b>{}</b></span>",
+        "today":      "<span color='#ffff00'><b><u>{}</u></b></span>"
+      }
+    },
+    "on-click": "xdg-open https://calendar.google.com"
+  /*"actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }*/
+  },
+
+  "battery": {
+    "states": {
+	"warning": 30,
+	"critical": 10
+    },
+    "bat": "BAT0",  // Which battery to read from
+    "adapter": "ACAD",  // 
+    "format": "BAT:{icon}{capacity}%[AC]",  // Format when charging
+    "format-discharging": "BAT:{icon}{capacity}%",  // Format when not charging
+    "tooltip": true,  // Show estimated battery life
+    "interval": 1,  // How often to refresh
+    "format-icons": [
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
+    ]
+  },
+
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false,
+    "on-click": "exec wlogout -b 3 -c 3 -r 1 -p layer-shell"
+  }
+},
+
+{
+  "name": "bar2",
+  "output": "DP-3",
+  "position": "top",  // Where to place waybar
+  "height": 30,  // Size / height of waybar (30 pixels)
+  "spacing": 4,  // Spacing between modules (4 pixels)
+  // "layer": "overlay",
+
+  // Order of modules
+  "modules-left": [
+    "hyprland/workspaces",  // 'Desktops' of sorts
+    "clock"
+  ],
+  "modules-center": [
+    "hyprland/window"  // Current active window
+  ],
+  "modules-right": [
+    "bluetooth",
+    "network",
+    "wireplumber",  // Audio
+    "battery",
+    "custom/power"
+  ],
+
+  /******************/
+  /* START OF TILES */
+  /******************/
+  "hyprland/workspaces": {
+    "disable-click": false,  // Disallow switching by clicking
+    "disable-scroll": true,  // Disallow switching by scrolling
+    "all-outputs": false,  // Show all windows (instead of only active ones)
+    "format": "{name}",  // How to display windows
+    "warp-on-scroll": false,  // No clue what it does
+    "persistent-workspaces": {  // Make all workspaces available by default
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
+    }
+  },
+
+  "hyprland/window": {
+    "format": "{title}",
+    "max-length": 40, // comment out if you have enough space
+    "all-outputs": false
+  },
+
+  "bluetooth": {
+    // "controller": "controller1", // specify the alias of the controller if there are more than 1 on the system
+    "format": "BT: {status}",
+    "format-disabled": "", // an empty format will hide the module
+    "format-connected": "BT: {device_alias}",
+    "format-connected-battery": "BT: {device_alias} {device_battery_percentage}%",
+    "on-click": "blueman-manager"
+  },
+
+  "network": {
+    //"interface": "wlp2s0",
+    "format-wifi": "NET:{essid} {icon}",
+    "format-disconnected": "<span color='#777'>NET:{essid} {icon}</span>",
+    "format-icons": [
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
+    ],
+    "on-click": "alacritty -e nmtui"
+  },
+  
+  "wireplumber": {
+    "scroll-step": 5, // %, can be a float
+    "format": "VOL:{icon}",
+    "format-bluetooth": "BT VOL:{icon}",
+    "format-bluetooth-muted": "<span color='#777'>BT VOL:{icon}</span>",
+    "format-muted": "<span color='#777'>VOL:{icon}</span>",
+    "format-icons": [
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
+    ],
+    "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+  },
+
+  "clock": {
+    "format": "{:%a %d %b %R}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months":     "<span color='#ffb7ff'>{}</span>",
+        "days":       "<span color='#ff66cc'><b>{}</b></span>",
+        "weeks":      "<span color='#00fff7'><b>W{}</b></span>",
+        "weekdays":   "<span color='#00fff7'><b>{}</b></span>",
+        "today":      "<span color='#ffff00'><b><u>{}</u></b></span>"
+      }
+    },
+    "on-click": "xdg-open https://calendar.google.com"
+  /*"actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }*/
+  },
+
+  "battery": {
+    "states": {
+	"warning": 30,
+	"critical": 10
+    },
+    "bat": "BAT0",  // Which battery to read from
+    "adapter": "ACAD",  // 
+    "format": "BAT:{icon}{capacity}%[AC]",  // Format when charging
+    "format-discharging": "BAT:{icon}{capacity}%",  // Format when not charging
+    "tooltip": true,  // Show estimated battery life
+    "interval": 1,  // How often to refresh
+    "format-icons": [
+      "[▏ ]",
+      "[▎ ]",
+      "[▍ ]",
+      "[▌ ]",
+      "[▋ ]",
+      "[▊ ]",
+      "[▉ ]",
+      "[█ ]",
+      "[█▏]",
+      "[█▎]",
+      "[█▍]",
+      "[█▌]",
+      "[█▋]",
+      "[█▊]",
+      "[█▉]",
+      "[██]"
+    ]
+  },
+
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false,
+    "on-click": "exec wlogout -b 3 -c 3 -r 1 -p layer-shell"
+  }
+}
+]
