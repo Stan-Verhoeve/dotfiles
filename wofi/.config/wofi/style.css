@@ -1,4 +1,4 @@
-@import '../colors.css';
+@import '/home/stan/.config/colors.css';
 
 window {
     margin: 0px;
@@ -11,17 +11,17 @@ window {
 }
 
 #input {
-    margin: 8px;
+    margin: 5px;
     border: none;
     color: @maintxt;
     background-color: alpha(@fg, 0.1);
-    padding: 8px 12px;
+    /* padding: 8px 12px; */
     border-radius: 8px;
 }
 
 #outer-box {
     margin: 8px;
-    padding: 5px;
+    /* padding: 5px; */
     background-color: transparent;
 }
 
@@ -41,15 +41,15 @@ window {
 }
 
 #entry {
-    padding: 6px 10px;
+    /* padding: 6px 10px; */
     border-radius: 6px;
     color: @alttxt;
     background: transparent;
 }
 
 #entry:selected {
-    background: transparent;
-    border: 2px solid @highlight;
-    color: @bg;
-    font-weight: bold;
+    background: alpha(@fg, 0.3);
+    /* background: transparent; */
+    /* border: 2px solid @highlight; */
+    /* font-weight: bold; */
 }
