@@ -54,6 +54,14 @@ tooltip {
   color: @maintxt;
 }
 
+#battery.critical {
+  color: red;
+  animation: flash-text 1s linear infinite;
+}
+
+@keyframes flash-text {
+  50% { color: transparent; }
+}
 
 /****************
  ** WORKSPACES **
