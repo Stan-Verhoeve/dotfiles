@@ -1,0 +1,96 @@
+/**
+ * Power Menu Theme for Rofi
+ * Place at ~/.config/rofi/powermenu.rasi
+ */
+
+* {
+    bg:        #2a003d;
+    fg:        #ffb7ff;
+    border-c:  #ff4da6;
+    maintxt:   #ff66cc;
+    alttxt:    #00fff7;
+    highlight: #ffff00;
+
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "Fira Code 14";
+}
+
+window {
+    background-color: @bg;
+    border:           3px;
+    border-color:     @border-c;
+    border-radius:    12px;
+    padding:          8px;
+    width:            220px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    spacing:          4px;
+}
+
+inputbar {
+    background-color: transparent;
+    children:         [ prompt ];
+    padding:          0px;
+    spacing:          0px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @maintxt;
+    padding:          4px 8px;
+}
+
+listview {
+    background-color: transparent;
+    columns:          2;
+    lines:            1;
+    spacing:          6px;
+    padding:          4px;
+    fixed-height:     true;
+    fixed-columns:    true;
+    flow:             horizontal;
+}
+
+element {
+    background-color: transparent;
+    border:           2px;
+    border-color:     transparent;
+    border-radius:    6px;
+    padding:          6px 10px;
+    cursor:           pointer;
+    orientation:      horizontal;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       @alttxt;
+    highlight:        none;
+    cursor:           inherit;
+}
+
+element selected {
+    background-color: transparent;
+    border:           2px;
+    border-color:     @highlight;
+    border-radius:    6px;
+}
+
+element selected element-text {
+    text-color: @fg;
+}
+
+element alternate {
+    background-color: transparent;
+}
+
+element normal active,
+element alternate active {
+    background-color: transparent;
+    border:           2px;
+    border-color:     @border-c;
+    border-radius:    6px;
+}

@@ -1,60 +1,61 @@
 #!/bin/bash
 
-# Main menu
+THEME="$HOME/.config/rofi/powermenu.rasi"
+
 main_menu() {
-    wofi --dmenu \
-        -L 6 -l 3 -W 200 -x -0 -y 10 \
-        --prompt "Power Menu" \
-        --hide-search \
-	--hide-scroll \
-	--cache-file /dev/null \
-        -D allow_images=false \
-	-D single_click=true \
-        -D allow_reorder=false <<EOF
-Shutdown
-Reboot
-Log off
-Sleep
-Lock
-Cancel
-EOF
+    printf "Shutdown\nReboot\nLog off\nSleep\nLock\nCancel" | \
+    rofi -dmenu \
+        -theme-str 'mainbox { children: [ listview ]; }'\
+	-hover-select \
+	-me-select-entry '' \
+	-me-accept-entry 'MousePrimary' \
+        -lines 6 \
+        -width 200 \
+        -location 3 \
+        -xoffset -0 \
+        -yoffset 10 \
+        -no-fixed-num-lines \
+        -theme "$THEME" \
+        -theme-str 'listview { columns: 1; lines: 6; }' \
+        -theme-str 'window { width: 200px; }'
 }
 
-# Confirmation menu
 confirm_menu() {
-    wofi --dmenu \
-	--columns=2 \
-	--lines=1 \
-        --width 220 \
-        --location center \
-        --hide-search \
-	--hide-scroll \
-	--cache-file /dev/null \
-	-D dynamic_lines=false \
-        -D allow_images=false \
-	-D single_click=true \
-        -D allow_reorder=false <<EOF
-Yes
-Cancel
-EOF
+    local action="$1"
+    echo "$action"
+    printf "Yes\nCancel" | \
+    rofi -dmenu \
+        -p "$action?" \
+	-theme-str 'mainbox { children: [inputbar, listview ]; }' \
+	-hover-select \
+	-me-select-entry '' \
+	-me-accept-entry 'MousePrimary' \
+        -lines 1 \
+        -no-fixed-num-lines \
+        -theme "$THEME" \
+        -theme-str 'listview { columns: 2; lines: 1; }' \
+        -theme-str 'window { width: 220px; }'
 }
 
 choice=$(main_menu)
 
 case "$choice" in
     Shutdown)
-        [ "$(confirm_menu)" = "Yes" ] && systemctl poweroff
+        [ "$(confirm_menu 'Shutdown')" = "Yes" ] && systemctl poweroff
         ;;
     Reboot)
-        [ "$(confirm_menu)" = "Yes" ] && systemctl reboot
+        [ "$(confirm_menu 'Reboot')" = "Yes" ] && systemctl reboot
         ;;
     "Log off")
-        [ "$(confirm_menu)" = "Yes" ] && hyprctl dispatch exit
+        [ "$(confirm_menu 'Log off')" = "Yes" ] && hyprctl dispatch exit
         ;;
     Sleep)
         systemctl suspend
         ;;
     Lock)
         hyprlock
+        ;;
+    Cancel|"")
+        exit 0
         ;;
 esac
