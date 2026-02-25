@@ -1,0 +1,120 @@
+/**
+ * General Launcher Theme for Rofi
+ * Place at ~/.config/rofi/launcher.rasi
+ */
+
+* {
+    bg:        #2a003d;
+    fg:        #ffb7ff;
+    border-c:  #ff4da6;
+    maintxt:   #ff66cc;
+    alttxt:    #00fff7;
+    highlight: #ffff00;
+
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "Fira Code 14";
+}
+
+window {
+    background-color: @bg;
+    border:           3px;
+    border-color:     @border-c;
+    border-radius:    12px;
+    padding:          8px;
+    width:            480px;
+}
+
+mainbox {
+    background-color: transparent;
+    children:         [ inputbar, listview ];
+    spacing:          8px;
+}
+
+inputbar {
+    background-color: transparent;
+    children:         [ prompt, entry ];
+    spacing:          8px;
+    padding:          4px 8px;
+    border:           1px;
+    border-color:     @border-c;
+    border-radius:    8px;
+}
+
+prompt {
+    background-color: transparent;
+    text-color:       @maintxt;
+    padding:          2px 0px;
+}
+
+entry {
+    background-color: transparent;
+    text-color:       @fg;
+    placeholder:      "Search...";
+    placeholder-color: @alttxt;
+    cursor:           text;
+    padding:          2px 0px;
+}
+
+listview {
+    background-color: transparent;
+    columns:          1;
+    lines:            8;
+    spacing:          2px;
+    padding:          0px;
+    fixed-height:     false;
+    scrollbar:        false;
+}
+
+element {
+    background-color: transparent;
+    border:           2px;
+    border-color:     transparent;
+    border-radius:    6px;
+    padding:          6px 10px;
+    cursor:           pointer;
+    orientation:      horizontal;
+    spacing:          8px;
+}
+
+element-icon {
+    background-color: transparent;
+    size:             20px;
+    cursor:           inherit;
+}
+
+element-text {
+    background-color: transparent;
+    text-color:       @alttxt;
+    highlight:        none;
+    cursor:           inherit;
+    vertical-align:   0.5;
+}
+
+element selected {
+    background-color: transparent;
+    border:           2px;
+    border-color:     @highlight;
+    border-radius:    6px;
+}
+
+element selected element-text {
+    text-color: @fg;
+}
+
+element alternate {
+    background-color: transparent;
+}
+
+element normal active,
+element alternate active {
+    background-color: transparent;
+    border:           2px;
+    border-color:     @border-c;
+    border-radius:    6px;
+}
+
+element normal active element-text,
+element alternate active element-text {
+    text-color: @fg;
+}
