@@ -32,15 +32,11 @@ alias ls="ls $LS_OPTIONS"
 alias lsa="ls -a"
 alias ..="cdl .."
 alias ...="cdl ../.."
-alias ...="cdl ../../.."
+alias ....="cdl ../../.."
 alias ltree="tree -C -L 1 --dirsfirst"
 
-# Grep alias
-alias gf="grep --color=always -R $1"
 # Git aliases
 alias gs="git status"
-alias gd="git diff $1"
-alias ga="git add $1"
 
 # Quick path aliases
 alias gotouni="cdl $HOME/documents/university"
@@ -55,6 +51,22 @@ alias gen="source $HOME/python_envs/general_purpose/bin/activate"
 ###############
 ## FUNCTIONS ##
 ###############
+
+# Grep function
+# -------------
+gf() {
+  grep --color=always -R "$@"
+}
+
+# Git functions
+# -------------
+gd() {
+  git diff "$@"
+}
+
+ga() {
+  git add "$@"
+}
 
 # Extract a target compressed ball
 # --------------------------------
@@ -186,3 +198,4 @@ activate() {
   export NIXPKGS_ALLOW_INSECURE=1
   nix develop "$dir" --impure
 }
+export PATH="$HOME/.local/bin:$PATH"
