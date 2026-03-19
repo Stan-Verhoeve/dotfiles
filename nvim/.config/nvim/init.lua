@@ -4,9 +4,11 @@
   This file sets up the plugin manager and loads all modules.
   Modular structure:
     - lua/core/options.lua    : Vim options
-    - lua/plugins/            : Plugin configurations
+    - lua/core/keymaps.lua    : Keybindings
+    - lua/core/autocmds.lua   : Autocommands
+    - lua/plugins/            : Plugin configurations (one file per plugin)
 
-  See lua/plugins/00-init.lua to add new plugins.
+  See lua/plugins/lazy.lua to add new plugins.
 --]]
 
 -- Set <space> as the leader key (must happen before plugins load)
@@ -24,8 +26,8 @@ vim.lsp.handlers["textDocument/signatureHelp"] = nil
 require("core.options")
 
 -- Load keymaps and autocommands
-require("plugins.02-keymaps")
-require("plugins.03-autocmds")
+require("core.keymaps")
+require("core.autocmds")
 
 -- Set up terminal colors for theme
 vim.o.termguicolors = true
@@ -36,5 +38,5 @@ vim.cmd([[
 ]])
 
 -- Load lazy.nvim plugin manager and all plugins
-require("plugins.00-init")
+require("plugins.lazy")
 

@@ -1,8 +1,8 @@
 --[[
   Plugin Manager Setup (lazy.nvim)
 
-  This file sets up lazy.nvim and defines all plugins.
-  To add a new plugin, create a new file in lua/plugins/ and add it here.
+  Bootstraps lazy.nvim and loads all plugin configs from lua/plugins/.
+  To add a new plugin, create a file in lua/plugins/ and require it below.
 --]]
 
 -- Install lazy.nvim if not present
@@ -19,24 +19,22 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
--- Load all plugin files from this directory
--- The numbers (01-, 02-, etc.) determine load order
+-- Load all plugin configs (each plugin in its own file)
 require("lazy").setup({
-  -- Individual plugin configs (each in its own file)
-  require("plugins.10-telescope"),
-  require("plugins.11-lsp"),
-  require("plugins.12-completion"),
-  require("plugins.13-treesitter"),
-  require("plugins.14-gitsigns"),
-  require("plugins.15-whichkey"),
-  require("plugins.16-lazydev"),
-  require("plugins.17-conform"),
-  require("plugins.18-colorscheme"),
-  require("plugins.19-todocomments"),
-  require("plugins.20-mini"),
-  require("plugins.21-guessindent"),
-  require("plugins.22-signature"),
-  require("plugins.23-vimtex"),
+  require("plugins.telescope"),
+  require("plugins.lsp"),
+  require("plugins.completion"),
+  require("plugins.treesitter"),
+  require("plugins.gitsigns"),
+  require("plugins.whichkey"),
+  require("plugins.lazydev"),
+  require("plugins.conform"),
+  require("plugins.colorscheme"),
+  require("plugins.todocomments"),
+  require("plugins.mini"),
+  require("plugins.guessindent"),
+  require("plugins.signature"),
+  require("plugins.vimtex"),
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
