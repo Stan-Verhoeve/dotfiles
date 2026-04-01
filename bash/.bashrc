@@ -41,9 +41,6 @@ alias gs="git status"
 # Quick path aliases
 alias gotouni="cdl $HOME/documents/university"
 
-# Quick python venv activation
-alias gen="source $HOME/python_envs/general_purpose/bin/activate"
-
 ######################
 ## General settings ##
 ######################
@@ -154,6 +151,41 @@ showcolours() {
 # ---------------------------------------------
 cdl() { cd "$@" && ls; }
 cdt() { cd "$@" && ltree; }
+
+# Activate a python venv
+# ----------------------
+pyact() {
+  local env="$1"
+
+  case "$env" in
+    ""|"-h"|"--help")
+      echo "Usage: pyact <name-of-env>"
+      echo
+      echo "Options:"
+      echo "  -h, --help      Show this help message"
+      echo "  -l              List available python environments"
+      echo
+      echo "Example:"
+      echo "  pyact general_purpose"
+      return 0
+      ;;
+    "-l")
+      echo "Available python environments:"
+      for e in "$HOME/python_envs"/*/; do
+        [[ -d "$e" ]] && echo "  $(basename "$e")"
+      done
+      return 0
+      ;;
+  esac
+
+  local activate_script="$HOME/python_envs/$env/bin/activate"
+  if [ ! -f "$activate_script" ]; then
+    echo "Environment not found: $env"
+    return 1
+  fi
+
+  source "$activate_script"
+}
 
 # Activate a target nix-shell env
 # -------------------------------
