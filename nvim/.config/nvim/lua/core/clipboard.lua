@@ -2,6 +2,7 @@
   Clipboard
   Uses OSC52 to sync clipboard over SSH to local machine.
   Falls back to system clipboard when not on SSH.
+  Note: paste from local -> cluster via ctrl+shift+v in terminal.
 --]]
 if vim.env.SSH_CONNECTION ~= nil then
   vim.g.clipboard = {
@@ -11,8 +12,8 @@ if vim.env.SSH_CONNECTION ~= nil then
       ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
     },
     paste = {
-      ["+"] = require("vim.ui.clipboard.osc52").paste("+"),
-      ["*"] = require("vim.ui.clipboard.osc52").paste("*"),
+      ["+"] = { "false" },
+      ["*"] = { "false" },
     },
   }
 end
