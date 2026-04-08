@@ -29,6 +29,9 @@ require("core.options")
 require("core.keymaps")
 require("core.autocmds")
 
+-- Load clipboard settings
+require("core.clipboard")
+
 -- Set up terminal colors for theme
 vim.o.termguicolors = true
 vim.cmd([[
