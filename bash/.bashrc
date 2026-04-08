@@ -1,10 +1,4 @@
 #####################
-## WELCOME FORTUNE ##
-#####################
-fortune -s | cowsay -f small
-# fortune -s | cowsay -f cupcake
-
-#####################
 ## COLOUR SETTINGS ##
 #####################
 export LS_OPTIONS="--color=auto"
@@ -15,17 +9,9 @@ export LS_COLORS=$LS_COLORS:"di=1;3:*.zip=0;4;31"
 
 force_color_prompt=yes
 
-#################
-## PYENV STUFF ##
-#################
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init - bash)"
-
-# export PATH="$PYENV_ROOT/bin:$PATH"
 #############
 ## ALIASES ##
-############
+#############
 alias ls="ls $LS_OPTIONS"
 
 # Listing aliases
@@ -33,17 +19,10 @@ alias lsa="ls -a"
 alias ..="cdl .."
 alias ...="cdl ../.."
 alias ....="cdl ../../.."
-alias ltree="tree -C -L 1 --dirsfirst"
+alias lt="tree -C -L 1 --dirsfirst"
 
 # Git aliases
 alias gs="git status"
-
-# Quick path aliases
-alias gotouni="cdl $HOME/documents/university"
-
-######################
-## General settings ##
-######################
 
 ###############
 ## FUNCTIONS ##
@@ -106,7 +85,7 @@ parse_git_branch() {
   # Check if there are unstaged changes
   git diff --quiet 2>/dev/null || unstaged="*"
   git diff --cached --quiet 2>/dev/null || staged="+"
-        
+
   # Check if the branch is clean (no uncommitted changes)
   if [ -n "$unstaged" ]; then
     # Unstaged changes, show in bold red
@@ -124,9 +103,6 @@ parse_git_branch() {
 }
 
 # Set PS1 to include git branch
-# Also use custom layout
-# PS1='\[\e]0;\w\a\]\[\e[32m\](\w) $(parse_git_branch)\n\[\e[32m\]❯❯ \[\e[0m\]'
-
 PS1='\[\e[32m\](\w) $(parse_git_branch)\n\[\e[32m\]❯❯ \[\e[0m\]'
 
 # Set terminal title to current dir
@@ -135,7 +111,6 @@ update_terminal_title() {
 }
 
 PROMPT_COMMAND=update_terminal_title
-
 
 
 # Lists colour codes with their colour
@@ -150,84 +125,18 @@ showcolours() {
 # List files in directory when changing into it
 # ---------------------------------------------
 cdl() { cd "$@" && ls; }
-cdt() { cd "$@" && ltree; }
+cdt() { cd "$@" && lt; }
 
-# Activate a python venv
-# ----------------------
-pyact() {
-  local env="$1"
+###########
+## PATH  ##
+###########
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
 
-  case "$env" in
-    ""|"-h"|"--help")
-      echo "Usage: pyact <name-of-env>"
-      echo
-      echo "Options:"
-      echo "  -h, --help      Show this help message"
-      echo "  -l              List available python environments"
-      echo
-      echo "Example:"
-      echo "  pyact general_purpose"
-      return 0
-      ;;
-    "-l")
-      echo "Available python environments:"
-      for e in "$HOME/python_envs"/*/; do
-        [[ -d "$e" ]] && echo "  $(basename "$e")"
-      done
-      return 0
-      ;;
-  esac
-
-  local activate_script="$HOME/python_envs/$env/bin/activate"
-  if [ ! -f "$activate_script" ]; then
-    echo "Environment not found: $env"
-    return 1
-  fi
-
-  source "$activate_script"
-}
-
-# Activate a target nix-shell env
-# -------------------------------
-activate() {
-  local dir="$1"
-
-  case "$dir" in
-    ""|"-h"|"--help")
-      echo "Usage: activate <name-of-env>"
-      echo "   or: activate <directory-containing-flake.nix>"
-      echo
-      echo "Options:"
-      echo "  -h, --help      Show this help message"
-      echo "  -l, --list      List available environments"
-      echo
-      echo "Example:"
-      echo "  activate eftcamb_dev"
-      return 0
-      ;;
-    "-l"|"--list")
-      echo "Available environments:"
-      for env in "$HOME/devshells"/*; do
-        [[ -d "$env" ]] && echo "  $(basename "$env")"
-      done
-      return 0
-      ;;
-  esac
-
-  # If no special flag, assume it's an environment name or directory
-  case "$dir" in 
-    /*|~*) ;;  # Absolute path, leave as is
-    *) dir="$HOME/devshells/$dir" ;;
-  esac
-
-  # Check if environment exists
-  if [ ! -d "$dir" ]; then
-    echo "Environment not found: $dir"
-    return 1
-  fi
-
-  dir="$(realpath "$dir")"
-  export NIXPKGS_ALLOW_INSECURE=1
-  nix develop "$dir" --impure
-}
-export PATH="$HOME/.local/bin:$PATH"
+################
+## LOCAL CONF ##
+################
+# Machine-specific config (not tracked by dotfiles)
+[ -f "$HOME/.bashrc_local" ] && source "$HOME/.bashrc_local"
