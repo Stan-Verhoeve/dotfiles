@@ -110,7 +110,9 @@ update_terminal_title() {
     echo -ne "\033]0;~${PWD#$HOME}\007"
 }
 
-PROMPT_COMMAND=update_terminal_title
+if ! (readonly -p | grep -q 'PROMPT_COMMAND'); then
+    PROMPT_COMMAND=update_terminal_title
+fi
 
 
 # Lists colour codes with their colour
