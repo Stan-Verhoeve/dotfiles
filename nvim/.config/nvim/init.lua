@@ -32,14 +32,15 @@ require("core.autocmds")
 -- Load clipboard settings
 require("core.clipboard")
 
--- Set up terminal colors for theme
 vim.o.termguicolors = true
+
+-- Load lazy.nvim plugin manager and all plugins
+require("plugins.lazy")
+
+-- Apply after plugins so nothing overrides these
 vim.cmd([[
   hi Normal guibg=NONE guifg=NONE
   hi LineNr guibg=NONE guifg=gray
   hi StatusLine guibg=NONE guifg=white
 ]])
-
--- Load lazy.nvim plugin manager and all plugins
-require("plugins.lazy")
 
