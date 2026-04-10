@@ -363,7 +363,7 @@
 [urgency_critical]
     background = "#2a003d"
     foreground = "#00fff7"
-    frame_color = "#ff4da6"
+    frame_color = "#ff0000"
     timeout = 0
     override_pause_level = 60
     # Icon for notifications with critical urgency
