@@ -66,11 +66,7 @@ return {
           },
         },
         basedpyright = {},
-	texlab = {
-	  on_init = function(client)
-	    print(vim.inspect(client.server_capabilities.completionProvider))
-	  end,
-	},
+        texlab = {},
         lua_ls = {
           settings = {
             Lua = {

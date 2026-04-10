@@ -10,7 +10,15 @@ return {
       pattern = "tex",
       callback = function()
         vim.opt_local.conceallevel = 2
-        vim.keymap.set("i", "]]", "<CR><plug>(vimtex-delim-close)<esc>O", { buffer = true })
+        vim.keymap.set("i", "]]", function()
+          local col = vim.fn.col(".")
+          local next_char = vim.fn.getline("."):sub(col, col)
+          if next_char == "}" then
+            return "<Right><CR><plug>(vimtex-delim-close)<esc>O"
+          else
+            return "<CR><plug>(vimtex-delim-close)<esc>O"
+          end
+        end, { buffer = true, expr = true })
       end,
     })
   end,

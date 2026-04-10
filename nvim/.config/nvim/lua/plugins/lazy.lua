@@ -35,7 +35,8 @@ require("lazy").setup({
   require("plugins.guessindent"),
   require("plugins.signature"),
   require("plugins.vimtex"),
-  require("plugins.render-markdown"),
+  require("plugins.markview"),
+  require("plugins.oil"),
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
