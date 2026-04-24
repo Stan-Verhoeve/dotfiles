@@ -1,0 +1,169 @@
+/* Neon theme - GTK3 override */
+
+window,
+.background {
+  background-color: #2a003d;
+  color: #ffb7ff;
+}
+
+headerbar,
+.titlebar {
+  background-color: #3d0057;
+  background-image: none;
+  color: #ffb7ff;
+  border-bottom: 1px solid #ff4da6;
+  box-shadow: none;
+}
+
+headerbar button,
+.titlebar button {
+  background-color: transparent;
+  background-image: none;
+  color: #ff66cc;
+  border: 1px solid transparent;
+  box-shadow: none;
+}
+
+headerbar button:hover,
+.titlebar button:hover {
+  background-color: #4d006b;
+  color: #ffb7ff;
+  border-color: #ff4da6;
+}
+
+/* Sidebar */
+placessidebar,
+.sidebar {
+  background-color: #200030;
+  color: #00fff7;
+  border-right: 1px solid #ff4da6;
+}
+
+placessidebar row,
+.sidebar row {
+  padding: 2px 0;
+}
+
+placessidebar row:selected,
+.sidebar row:selected {
+  background-color: #4d006b;
+  color: #ffff00;
+}
+
+placessidebar row:hover:not(:selected),
+.sidebar row:hover:not(:selected) {
+  background-color: #3d0057;
+}
+
+/* File list / icon view */
+treeview,
+.view {
+  background-color: #2a003d;
+  color: #ffb7ff;
+}
+
+treeview:selected,
+.view:selected {
+  background-color: #4d006b;
+  color: #ffff00;
+}
+
+treeview header button {
+  background-color: #3d0057;
+  background-image: none;
+  color: #ff66cc;
+  border: none;
+  border-right: 1px solid #ff4da6;
+}
+
+/* Entry */
+entry {
+  background-color: #3d0057;
+  background-image: none;
+  color: #ffb7ff;
+  border: 1px solid #ff4da6;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+entry:focus {
+  border-color: #ffff00;
+  box-shadow: none;
+}
+
+/* Toolbar */
+toolbar {
+  background-color: #2a003d;
+  background-image: none;
+  border-bottom: 1px solid #ff4da6;
+  box-shadow: none;
+}
+
+/* Buttons */
+button {
+  background-color: #3d0057;
+  background-image: none;
+  color: #ffb7ff;
+  border: 1px solid #ff4da6;
+  box-shadow: none;
+}
+
+button:hover {
+  background-color: #4d006b;
+  border-color: #ffff00;
+}
+
+button:active {
+  background-color: #5d0080;
+}
+
+/* Context menu / popover */
+menu,
+.menu,
+.context-menu {
+  background-color: #3d0057;
+  color: #ffb7ff;
+  border: 1px solid #ff4da6;
+  border-radius: 6px;
+}
+
+menuitem {
+  padding: 4px 8px;
+}
+
+menuitem:hover {
+  background-color: #4d006b;
+  color: #ffff00;
+}
+
+popover,
+.popover {
+  background-color: #3d0057;
+  border: 1px solid #ff4da6;
+  border-radius: 8px;
+}
+
+/* Scrollbar */
+scrollbar {
+  background-color: transparent;
+  border: none;
+}
+
+scrollbar slider {
+  background-color: #ff4da6;
+  border-radius: 3px;
+  min-width: 6px;
+  min-height: 6px;
+  margin: 2px;
+}
+
+scrollbar slider:hover {
+  background-color: #ff66cc;
+}
+
+/* Separator */
+separator {
+  background-color: #ff4da6;
+  min-height: 1px;
+  min-width: 1px;
+}
