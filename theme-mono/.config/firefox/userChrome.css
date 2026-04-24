@@ -1,0 +1,166 @@
+/* ── Palette ──────────────────────────────────────────────────── */
+:root {
+  --ff-bg:       #0f0f0f;
+  --ff-surface:  #1a1a1a;
+  --ff-surface2: #252525;
+  --ff-border:   #d0d0d0;
+  --ff-fg:       #e8e8e8;
+  --ff-alttxt:   #a8a8a8;
+  --ff-maintxt:  #ffffff;
+
+  /* Firefox internal urlbar variables — must be overridden here */
+  --urlbar-box-bgcolor:                    #1a1a1a;
+  --urlbar-box-hover-bgcolor:              #1a1a1a;
+  --urlbar-box-focus-bgcolor:              #1a1a1a;
+  --urlbar-box-active-bgcolor:             #252525;
+  --urlbar-box-text-color:                 #e8e8e8;
+  --toolbar-field-background-color:        #1a1a1a;
+  --toolbar-field-focus-background-color:  #1a1a1a;
+  --toolbar-field-color:                   #e8e8e8;
+  --toolbar-field-focus-color:             #e8e8e8;
+  --toolbar-field-border-color:            #252525;
+  --toolbar-field-focus-border-color:      #d0d0d0;
+  --lwt-toolbar-field-background-color:    #1a1a1a;
+  --lwt-toolbar-field-focus:               #1a1a1a;
+}
+
+/* ── Toolbar area ─────────────────────────────────────────────── */
+#navigator-toolbox {
+  background-color: var(--ff-bg) !important;
+  border-bottom: 1px solid var(--ff-surface2) !important;
+}
+
+#nav-bar {
+  background-color: var(--ff-bg) !important;
+  box-shadow: none !important;
+}
+
+#TabsToolbar {
+  background-color: var(--ff-bg) !important;
+}
+
+/* ── URL bar ──────────────────────────────────────────────────── */
+#urlbar-background {
+  background-color: var(--ff-surface) !important;
+  border: 1px solid var(--ff-surface2) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+#urlbar:hover > #urlbar-background,
+#urlbar[focused="true"] > #urlbar-background,
+#urlbar[open] > #urlbar-background {
+  background-color: var(--ff-surface) !important;
+}
+
+#urlbar[focused="true"] > #urlbar-background,
+#urlbar[open] > #urlbar-background {
+  border-color: var(--ff-border) !important;
+  box-shadow: none !important;
+}
+
+#urlbar-input,
+.urlbar-scheme,
+#urlbar-label-box {
+  color: var(--ff-fg) !important;
+  font-family: "Fira Code", monospace !important;
+}
+
+/* ── Tabs ─────────────────────────────────────────────────────── */
+.tab-background {
+  border-radius: 8px !important;
+  margin-block: 3px !important;
+}
+
+tab:not([selected]) .tab-background {
+  background-color: transparent !important;
+}
+
+tab[selected] .tab-background {
+  background-color: var(--ff-surface) !important;
+  border: 1px solid var(--ff-surface2) !important;
+  box-shadow: none !important;
+}
+
+tab[selected]:hover .tab-background {
+  border-color: var(--ff-border) !important;
+}
+
+.tab-label {
+  color: var(--ff-alttxt) !important;
+  font-family: "Fira Code", monospace !important;
+}
+
+tab[selected] .tab-label {
+  color: var(--ff-maintxt) !important;
+}
+
+/* ── Toolbar buttons ──────────────────────────────────────────── */
+.toolbarbutton-1,
+.toolbarbutton-1 > .toolbarbutton-icon {
+  color: var(--ff-alttxt) !important;
+  fill: var(--ff-alttxt) !important;
+}
+
+.toolbarbutton-1:hover,
+.toolbarbutton-1:hover > .toolbarbutton-icon {
+  color: var(--ff-fg) !important;
+  fill: var(--ff-fg) !important;
+  background-color: var(--ff-surface2) !important;
+  border-radius: 6px !important;
+}
+
+/* ── URL bar results dropdown ─────────────────────────────────── */
+.urlbarView {
+  background-color: var(--ff-surface) !important;
+  color: var(--ff-fg) !important;
+  border: 1px solid var(--ff-surface2) !important;
+  border-radius: 8px !important;
+}
+
+.urlbarView-body-inner {
+  background-color: var(--ff-surface) !important;
+}
+
+.urlbarView-row:hover > .urlbarView-row-inner,
+.urlbarView-row[selected] > .urlbarView-row-inner {
+  background-color: var(--ff-surface2) !important;
+}
+
+.urlbarView-url,
+.urlbarView-title {
+  color: var(--ff-fg) !important;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────── */
+#sidebar-box,
+#sidebar-main {
+  background-color: var(--ff-bg) !important;
+  border-right: 1px solid var(--ff-surface2) !important;
+  color: var(--ff-fg) !important;
+}
+
+#sidebar-header {
+  background-color: var(--ff-bg) !important;
+  color: var(--ff-fg) !important;
+  border-bottom: 1px solid var(--ff-surface2) !important;
+}
+
+#sidebar-panel {
+  background-color: var(--ff-bg) !important;
+  color: var(--ff-fg) !important;
+}
+
+/* ── Context menu ─────────────────────────────────────────────── */
+menupopup,
+panel {
+  --panel-background: var(--ff-surface) !important;
+  --panel-color: var(--ff-fg) !important;
+  --panel-border-color: var(--ff-surface2) !important;
+  border-radius: 8px !important;
+}
+
+menuitem:hover {
+  background-color: var(--ff-surface2) !important;
+  color: var(--ff-maintxt) !important;
+}

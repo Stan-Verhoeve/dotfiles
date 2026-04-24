@@ -1,0 +1,110 @@
+@import '../colors.css';
+
+window#waybar,
+window.bar2#waybar {
+  font-family: "Fira Code", monospace;
+  font-weight: 500;
+  background-color: transparent;
+  color: @fg;
+  border: none;
+}
+
+window#waybar.hidden,
+window.bar2#waybar.hidden {
+  opacity: 0.2;
+}
+
+window#waybar.empty #window,
+window.bar2#waybar.empty #window {
+  background-color: transparent;
+  border: none;
+}
+
+.modules-right,
+.modules-right.bar2 { margin: 3px 0px 2px 0; }
+.modules-center,
+.modules-center.bar2 { margin: 3px 5px 2px 5px; }
+.modules-left,
+.modules-left.bar2 { margin: 3px 0 2px 0px; }
+
+tooltip {
+  background: @bg;
+  color: @fg;
+  border: 1px solid @maintxt;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.85em;
+}
+
+#clock { font-size: 1.2em; color: @maintxt; }
+#network { color: @alttxt; }
+#wireplumber { color: @alttxt; }
+#battery { color: @maintxt; }
+
+#battery.critical {
+  color: red;
+  animation: flash-text 1s linear infinite;
+}
+
+@keyframes flash-text {
+  50% { color: transparent; }
+}
+
+/****************
+ ** WORKSPACES **
+ ****************/
+#workspaces button {
+  color: @alttxt;
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  padding: 0 2px;
+  font-weight: normal;
+}
+
+#workspaces button.active {
+  color: @bg;
+  background: @border;
+  font-weight: bold;
+}
+
+#workspaces button:hover {
+  background: @alttxt;
+  color: @bg;
+}
+
+/* Bar2 workspace overrides */
+window.bar2 #workspaces button {
+  color: @maintxt;
+  background: @bg;
+  border: none;
+  padding: 0 1px;
+  font-weight: normal;
+}
+
+window.bar2 #workspaces button.active {
+  color: @highlight;
+  font-weight: bold;
+}
+
+window.bar2 #workspaces button:hover {
+  background: @bg;
+}
+
+/***********
+ ** PILLS **
+ ***********/
+#clock,
+#network,
+#battery,
+#wireplumber,
+#bluetooth,
+#window,
+#custom-power,
+#workspaces {
+  background-color: @pill_bg;
+  border-radius: 20px;
+  margin: 4px;
+  padding: 4px 8px;
+  border: 2px solid @border;
+}

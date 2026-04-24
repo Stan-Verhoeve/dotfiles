@@ -1,0 +1,7 @@
+allow-images=true
+width=30%
+lines=10
+prompt=Run:
+hide-scroll=true
+location=center
+

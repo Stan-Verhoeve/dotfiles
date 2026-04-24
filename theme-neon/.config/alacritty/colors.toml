@@ -1,0 +1,25 @@
+[colors]
+primary.background = "#2a003d"
+primary.foreground = "#ffb7ff"
+
+normal.black   = "#2a003d"
+normal.red     = "#ff66cc"
+normal.green   = "#00ffcc"
+normal.yellow  = "#ffed66"
+normal.blue    = "#cc33ff"
+normal.magenta = "#ff4dff"
+normal.cyan    = "#33ffff"
+normal.white   = "#ffb7ff"
+
+bright.black   = "#53007f"
+bright.red     = "#ff99e6"
+bright.green   = "#66fff2"
+bright.yellow  = "#fff966"
+bright.blue    = "#d27fff"
+bright.magenta = "#ff66ff"
+bright.cyan    = "#66ffff"
+bright.white   = "#ffffff"
+
+[window]
+opacity = 0.5
+dynamic_title = true

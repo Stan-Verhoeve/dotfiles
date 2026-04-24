@@ -1,0 +1,54 @@
+#!/bin/bash
+# Monitor battery level and send system notifications at warning/critical thresholds.
+# Event-driven via upower — only runs when the kernel reports a battery change.
+# Designed to run as a background daemon on login.
+
+CRITICAL=10
+WARNING=30
+
+last_notified=""
+
+notify_critical() {
+    notify-send \
+        --urgency=critical \
+        --icon=battery-caution \
+        "Battery Critical" \
+        "Battery is at ${1}%. Plug in now."
+}
+
+notify_warning() {
+    notify-send \
+        --urgency=normal \
+        --icon=battery-low \
+        "Battery Low" \
+        "Battery is at ${1}%."
+}
+
+upower --monitor-detail | while read -r line; do
+    # Accumulate lines until we have a percentage and state for BAT0
+    if [[ "$line" =~ percentage:[[:space:]]+([0-9]+)% ]]; then
+        capacity="${BASH_REMATCH[1]}"
+    elif [[ "$line" =~ state:[[:space:]]+(.+) ]]; then
+        state="${BASH_REMATCH[1]}"
+    fi
+
+    [[ -z "$capacity" || -z "$state" ]] && continue
+
+    if [[ "$state" == "discharging" ]]; then
+        if (( capacity <= CRITICAL )) && [[ "$last_notified" != "critical" ]]; then
+            notify_critical "$capacity"
+            last_notified="critical"
+        elif (( capacity <= WARNING && capacity > CRITICAL )) && [[ "$last_notified" != "warning" ]]; then
+            notify_warning "$capacity"
+            last_notified="warning"
+        elif (( capacity > WARNING )); then
+            last_notified=""
+        fi
+    else
+        last_notified=""
+    fi
+
+    # Reset for next event block
+    capacity=""
+    state=""
+done

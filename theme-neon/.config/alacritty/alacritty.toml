@@ -1,0 +1,7 @@
+# Import the currently active theme
+general.import = ["~/.config/alacritty/colors.toml"]
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

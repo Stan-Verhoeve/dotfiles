@@ -1,0 +1,302 @@
+#!/bin/bash
+
+THEME="$HOME/.config/rofi/powermenu.rasi"
+
+# Icons
+ICON_WIFI_FULL="󰤨"
+ICON_WIFI_HIGH="󰤥"
+ICON_WIFI_MED="󰤢"
+ICON_WIFI_LOW="󰤟"
+ICON_WIFI_LOCK="󰤪"
+ICON_WIFI_LOCK_HIGH="󰤡"
+ICON_WIFI_LOCK_MED="󰤞"
+ICON_WIFI_LOCK_LOW="󰤛"
+ICON_WIFI_SAVED="󰤦"
+ICON_WIFI_SAVED_LOCK="󰤩"
+ICON_CONNECTED="󰤨"
+ICON_DISCONNECTED="󰤭"
+ICON_SCANNING="󰤫"
+ICON_ENABLE="󰤨  Enable WiFi"
+ICON_DISABLE="󰤭  Disable WiFi"
+ICON_REFRESH="󰑐  Rescan"
+ICON_DISCONNECT="󱐙  Disconnect"
+ICON_SEPARATOR="─────────────────"
+ICON_CANCEL="󰅖  Cancel"
+
+FIFO="/tmp/wifi-menu-fifo-$$"
+
+cleanup() {
+    rm -f "$FIFO"
+    [ -n "$FEED_PID" ] && kill "$FEED_PID" 2>/dev/null
+}
+trap cleanup EXIT
+
+# ── helpers ──────────────────────────────────────────────────────────────────
+
+get_icon() {
+    local signal="$1" secure="$2" saved="$3"
+    if [ "$saved" = "yes" ]; then
+        [ "$secure" = "yes" ] && echo "$ICON_WIFI_SAVED_LOCK" || echo "$ICON_WIFI_SAVED"
+        return
+    fi
+    if [ "$secure" = "yes" ]; then
+        if   [ "$signal" -ge 75 ]; then echo "$ICON_WIFI_LOCK"
+        elif [ "$signal" -ge 50 ]; then echo "$ICON_WIFI_LOCK_HIGH"
+        elif [ "$signal" -ge 25 ]; then echo "$ICON_WIFI_LOCK_MED"
+        else                            echo "$ICON_WIFI_LOCK_LOW"
+        fi
+    else
+        if   [ "$signal" -ge 75 ]; then echo "$ICON_WIFI_FULL"
+        elif [ "$signal" -ge 50 ]; then echo "$ICON_WIFI_HIGH"
+        elif [ "$signal" -ge 25 ]; then echo "$ICON_WIFI_MED"
+        else                            echo "$ICON_WIFI_LOW"
+        fi
+    fi
+}
+
+wifi_enabled()       { nmcli radio wifi | grep -q "enabled"; }
+get_connected_ssid() {
+    nmcli -t -f NAME,TYPE,STATE con show --active \
+        | grep ":802-11-wireless:activated" \
+        | cut -d: -f1 \
+        | head -1
+}
+get_saved_networks() { nmcli -t -f name connection show | tr '\n' '|'; }
+
+notify() {
+    command -v notify-send &>/dev/null && notify-send "WiFi" "$1" --icon=network-wireless
+}
+
+# Emit one rofi dmenu entry.
+# --active marks it with null-byte metadata so rofi applies the "active" element style.
+emit_entry() {
+    local active=false
+    [ "$1" = "--active" ] && { active=true; shift; }
+    if $active; then
+        printf "%s\0active\x1ftrue\n" "$1"
+    else
+        printf "%s\n" "$1"
+    fi
+}
+
+# Build display text for one network row
+make_network_line() {
+    local inuse="$1" ssid="$2" signal="$3" security="$4" saved_networks="$5"
+
+    local secure="no"
+    [ -n "$security" ] && [ "$security" != "--" ] && secure="yes"
+
+    local saved="no"
+    echo "$saved_networks" | grep -qF "${ssid}" && saved="yes"
+
+    local icon; icon=$(get_icon "$signal" "$secure" "$saved")
+    local lock_ind=""; [ "$secure" = "yes" ] && lock_ind=" 󰌾"
+    local save_ind=""; [ "$saved"  = "yes" ] && save_ind=" ★"
+
+    if [ "$inuse" = "*" ]; then
+        printf "%s  %s%s%s  [%s%%]" "$ICON_CONNECTED" "$ssid" "$lock_ind" "$save_ind" "$signal"
+    else
+        printf "%s  %s%s%s  [%s%%]" "$icon" "$ssid" "$lock_ind" "$save_ind" "$signal"
+    fi
+}
+
+# ── main feed ─────────────────────────────────────────────────────────────────
+
+feed_rofi() {
+    if ! wifi_enabled; then
+        emit_entry "$ICON_ENABLE"
+        emit_entry "$ICON_SEPARATOR"
+        emit_entry "$ICON_CANCEL"
+        return
+    fi
+
+    local connected_ssid; connected_ssid=$(get_connected_ssid)
+    local saved_networks;  saved_networks=$(get_saved_networks)
+
+    # ── header action buttons ─────────────────────────────────────────────────
+    emit_entry "$ICON_DISABLE"
+    if [ -n "$connected_ssid" ]; then
+        emit_entry "$ICON_DISCONNECT"
+    else
+        emit_entry "$ICON_REFRESH"
+    fi
+
+    # ── connected network above the separator, highlighted green ──────────────
+    if [ -n "$connected_ssid" ]; then
+        local conn_info; conn_info=$(nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY dev wifi 2>/dev/null \
+            | grep "^\*:" | head -1)
+        local c_signal c_security
+        c_signal=$(  echo "$conn_info" | cut -d: -f3)
+        c_security=$(echo "$conn_info" | cut -d: -f4)
+        local conn_line
+        conn_line=$(make_network_line "*" "$connected_ssid" "$c_signal" "$c_security" "$saved_networks")
+        emit_entry "$conn_line"
+    fi
+
+    # ── separator + scanning placeholder ──────────────────────────────────────
+    emit_entry "$ICON_SEPARATOR"
+    emit_entry "${ICON_SCANNING}  Scanning..."
+
+    # Trigger background rescan
+    nmcli dev wifi rescan 2>/dev/null &
+
+    sleep 1
+
+    # ── stream deduplicated scan results ──────────────────────────────────────
+    local prev_list=""
+    for i in 1 2 3; do
+        sleep "$i"
+        local current_list
+        current_list=$(nmcli -t -f IN-USE,SSID,SIGNAL,SECURITY dev wifi 2>/dev/null)
+        [ "$current_list" = "$prev_list" ] && continue
+        prev_list="$current_list"
+
+        saved_networks=$(get_saved_networks)
+
+        # Deduplicate by SSID, keeping strongest signal (input pre-sorted desc)
+        declare -A seen_ssids
+        while IFS=: read -r inuse ssid signal security; do
+            ssid=$(echo "$ssid" | sed 's/\\:/:/g')
+            [ -z "$ssid" ] && continue
+            [ -z "${seen_ssids[$ssid]+x}" ] && seen_ssids["$ssid"]="$inuse:$signal:$security"
+        done <<< "$(echo "$current_list" | sort -t: -k3 -rn)"
+
+        # Emit non-connected networks, sorted by signal descending
+        local -a other_lines=()
+        for ssid in "${!seen_ssids[@]}"; do
+            # Skip connected — already shown above separator
+            [ "$ssid" = "$connected_ssid" ] && continue
+            IFS=: read -r inuse signal security <<< "${seen_ssids[$ssid]}"
+            local line; line=$(make_network_line "$inuse" "$ssid" "$signal" "$security" "$saved_networks")
+            other_lines+=("$line")
+        done
+        unset seen_ssids
+
+        # Sort by the [NN%] value embedded in the line
+        local sorted_lines
+        sorted_lines=$(printf '%s\n' "${other_lines[@]}" | sort -t'[' -k2 -rn)
+
+        while IFS= read -r line; do
+            [ -n "$line" ] && emit_entry "$line"
+        done <<< "$sorted_lines"
+    done
+
+    emit_entry "$ICON_SEPARATOR"
+    emit_entry "$ICON_CANCEL"
+}
+
+# ── rofi invocation ───────────────────────────────────────────────────────────
+
+show_wifi_menu() {
+    mkfifo "$FIFO"
+    feed_rofi > "$FIFO" &
+    FEED_PID=$!
+
+    local choice
+    choice=$(rofi -dmenu \
+        -p "󰤨 WiFi" \
+        -theme-str 'mainbox { children: [ inputbar, listview ]; }' \
+        -hover-select \
+        -me-select-entry '' \
+        -me-accept-entry 'MousePrimary' \
+        -no-fixed-num-lines \
+        -i \
+        -location 3 \
+        -xoffset -0 \
+        -yoffset 10 \
+        -theme "$THEME" \
+        -theme-str 'listview { columns: 1; lines: 10; scrollbar: true; }' \
+        -theme-str 'scrollbar { width: 4px; handle-width: 4px; }' \
+        -theme-str 'window { width: 340px; }' \
+        < "$FIFO")
+
+    kill "$FEED_PID" 2>/dev/null
+    rm -f "$FIFO"
+
+    printf '%s' "$choice"
+}
+
+# ── action handling ───────────────────────────────────────────────────────────
+
+ask_password() {
+    local ssid="$1"
+    rofi -dmenu \
+        -p "󰌾 Password for: $ssid" \
+        -password \
+        -lines 0 \
+        -theme "$THEME" \
+        -theme-str 'mainbox { children: [inputbar]; }' \
+        -theme-str 'window { width: 350px; }' \
+        -no-fixed-num-lines
+}
+
+connect_to_network() {
+    local ssid="$1"
+    local saved_networks; saved_networks=$(get_saved_networks)
+    local is_saved="no"
+    echo "$saved_networks" | grep -qF "${ssid}" && is_saved="yes"
+
+    if [ "$is_saved" = "yes" ]; then
+        notify "Connecting to $ssid..."
+        nmcli con up "$ssid" 2>/dev/null || nmcli dev wifi connect "$ssid" 2>/dev/null
+    else
+        local security
+        security=$(nmcli -t -f SSID,SECURITY dev wifi | grep "^${ssid}:" | cut -d: -f2)
+        if [ -n "$security" ] && [ "$security" != "--" ]; then
+            local password; password=$(ask_password "$ssid")
+            [ -z "$password" ] && return
+            notify "Connecting to $ssid..."
+            nmcli dev wifi connect "$ssid" password "$password"
+        else
+            notify "Connecting to $ssid..."
+            nmcli dev wifi connect "$ssid"
+        fi
+    fi
+
+    if [ $? -eq 0 ]; then notify "Connected to $ssid"
+    else                   notify "Failed to connect to $ssid"
+    fi
+}
+
+extract_ssid() {
+    printf '%s' "$1" \
+        | sed 's/^[^ ]*  *//' \
+        | sed 's/  *[󰌾★].*//' \
+        | sed 's/  *\[.*%\].*//' \
+        | sed 's/^ *//; s/ *$//'
+}
+
+handle_choice() {
+    local choice="$1"
+    case "$choice" in
+        "$ICON_ENABLE"|*"Enable WiFi"*)
+            nmcli radio wifi on; notify "WiFi enabled"; main ;;
+        "$ICON_DISABLE"|*"Disable WiFi"*)
+            nmcli radio wifi off; notify "WiFi disabled" ;;
+        "$ICON_DISCONNECT"|*"Disconnect"*)
+            local csid; csid=$(get_connected_ssid)
+            if [ -n "$csid" ]; then
+                nmcli con down "$csid" 2>/dev/null || \
+                    nmcli dev disconnect "$(nmcli -t -f DEVICE,STATE dev | grep ":connected" | head -1 | cut -d: -f1)"
+                notify "Disconnected from $csid"
+            fi ;;
+        "$ICON_REFRESH"|*"Rescan"*)
+            main ;;
+        "$ICON_CANCEL"|"")
+            exit 0 ;;
+        "$ICON_SEPARATOR"|*"Scanning..."*)
+            ;; # ignore non-interactive rows
+        *"$ICON_CONNECTED"*)
+            ;; # clicking connected network is a no-op
+        *)
+            local ssid; ssid=$(extract_ssid "$choice")
+            [ -n "$ssid" ] && connect_to_network "$ssid" ;;
+    esac
+}
+
+main() {
+    local choice; choice=$(show_wifi_menu)
+    handle_choice "$choice"
+}
+
+main

@@ -1,0 +1,7 @@
+@define-color bg #0f0f0f;
+@define-color fg #e8e8e8;
+@define-color border #d0d0d0;
+@define-color maintxt #ffffff;
+@define-color alttxt #a8a8a8;
+@define-color highlight #ffffff;
+@define-color pill_bg rgba(15, 15, 15, 0.65);

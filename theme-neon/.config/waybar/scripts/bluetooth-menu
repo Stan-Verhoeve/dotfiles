@@ -1,0 +1,288 @@
+#!/bin/bash
+
+THEME="$HOME/.config/rofi/powermenu.rasi"
+
+# Icons
+ICON_BT_CONNECTED="󰂱"
+ICON_BT_PAIRED="󰂴"
+ICON_BT_AUDIO="󰋋"
+ICON_BT_PHONE="󰄜"
+ICON_BT_KEYBOARD="󰌌"
+ICON_BT_MOUSE="󰍽"
+ICON_BT_DEVICE="󰂷"
+ICON_ENABLE="󰂯  Enable Bluetooth"
+ICON_DISABLE="󰂲  Disable Bluetooth"
+ICON_DISCONNECT="󱐙  Disconnect"
+ICON_SCAN_ON="󰂰  Start Scanning"
+ICON_BLUEMAN="󰒓  Open Blueman"
+ICON_SEPARATOR="─────────────────"
+ICON_SCANNING="󰂰  Scanning..."
+ICON_CANCEL="󰅖  Cancel"
+
+FIFO="/tmp/bt-menu-fifo-$$"
+
+cleanup() {
+    rm -f "$FIFO"
+    [ -n "$FEED_PID" ] && kill "$FEED_PID" 2>/dev/null
+    printf "scan off\nquit\n" | bluetoothctl >/dev/null 2>&1 &
+}
+trap cleanup EXIT
+
+# ── helpers ───────────────────────────────────────────────────────────────────
+
+# Strip all ANSI escape codes from bluetoothctl output
+strip_ansi() { sed 's/\x1b\[[0-9;]*m//g; s/\x1b\[[0-9;]*[a-zA-Z]//g'; }
+
+# Run commands in an interactive bluetoothctl session, with ANSI stripped
+btctl() {
+    printf "%s\nquit\n" "$*" | bluetoothctl 2>/dev/null | strip_ansi
+}
+
+bt_enabled() {
+    btctl "show" | grep -q "Powered: yes"
+}
+
+# Returns lines of: MAC  NAME  (space-separated, name may have spaces)
+# Uses a single interactive session to get all devices + their Connected state
+get_all_device_info() {
+    # We run 'devices' then 'info <mac>' for each in one session
+    # But since info on powered-off devices can be slow, we instead:
+    # 1. Get all devices via 'devices'
+    # 2. Get connected ones via 'devices Connected'
+    # Both in separate quick sessions
+
+    local all_devices connected_macs
+    all_devices=$(btctl "devices" | grep "^Device " | sed 's/^Device //')
+    # Format: "AA:BB:CC:DD:EE:FF Some Name"
+
+    connected_macs=$(btctl "devices Connected" | grep "^Device " | awk '{print $1}')
+    paired_macs=$(btctl "devices Paired" | grep "^Device " | awk '{print $1}')
+
+    while IFS= read -r line; do
+        [ -z "$line" ] && continue
+        local mac name
+        mac=$(echo "$line" | awk '{print $1}')
+        name=$(echo "$line" | cut -d' ' -f2-)
+
+        local is_connected=0 is_paired=0
+        echo "$connected_macs" | grep -qF "$mac" && is_connected=1
+        echo "$paired_macs"    | grep -qF "$mac" && is_paired=1
+
+        printf "%s\t%s\t%s\t%s\n" "$mac" "$name" "$is_connected" "$is_paired"
+    done <<< "$all_devices"
+}
+
+get_device_icon() {
+    local name="${1,,}"
+    case "$name" in
+        *headphone*|*headset*|*earbuds*|*airpod*|*buds*|*speaker*|*nexus*|wh-*|wf-*|*xm*)
+            echo "$ICON_BT_AUDIO" ;;
+        *phone*)    echo "$ICON_BT_PHONE" ;;
+        *keyboard*) echo "$ICON_BT_KEYBOARD" ;;
+        *mouse*)    echo "$ICON_BT_MOUSE" ;;
+        *)          echo "$ICON_BT_DEVICE" ;;
+    esac
+}
+
+emit_entry() { printf "%s\n" "$1"; }
+
+notify() {
+    command -v notify-send &>/dev/null && notify-send "Bluetooth" "$1" --icon=bluetooth
+}
+
+make_device_line() {
+    local mac="$1" name="$2" connected="$3" paired="$4"
+    local icon; icon=$(get_device_icon "$name")
+    local status=""
+    if [ "$connected" = "1" ]; then
+        icon="$ICON_BT_CONNECTED"
+        status=" ✓"
+    elif [ "$paired" = "1" ]; then
+        icon="$ICON_BT_PAIRED"
+        status=" ★"
+    fi
+    printf "%s  %s%s" "$icon" "$name" "$status"
+}
+
+# ── main feed ─────────────────────────────────────────────────────────────────
+
+feed_rofi() {
+    if ! bt_enabled; then
+        emit_entry "$ICON_ENABLE"
+        emit_entry "$ICON_SEPARATOR"
+        emit_entry "$ICON_CANCEL"
+        return
+    fi
+
+    # Header buttons
+    emit_entry "$ICON_DISABLE"
+    emit_entry "$ICON_SCAN_ON"
+    emit_entry "$ICON_BLUEMAN"
+
+    # Fetch all device info upfront
+    local device_info
+    device_info=$(get_all_device_info)
+
+    local -a connected_entries=()
+    local -a paired_entries=()
+    local -A seen_macs=()
+
+    while IFS=$'\t' read -r mac name is_connected is_paired; do
+        [ -z "$mac" ] && continue
+        seen_macs["$mac"]=1
+        local line; line=$(make_device_line "$mac" "$name" "$is_connected" "$is_paired")
+        local tagged="${line}	${mac}"
+        if   [ "$is_connected" = "1" ]; then connected_entries+=("$tagged")
+        else                                 paired_entries+=("$tagged")
+        fi
+    done <<< "$device_info"
+
+    # Connected devices above the first separator
+    if [ "${#connected_entries[@]}" -gt 0 ]; then
+        for entry in "${connected_entries[@]}"; do
+            emit_entry "$(printf '%s' "$entry" | cut -f1)"
+        done
+        emit_entry "$ICON_DISCONNECT"
+    fi
+
+    emit_entry "$ICON_SEPARATOR"
+
+    # Paired / known devices
+    for entry in "${paired_entries[@]}"; do
+        emit_entry "$(printf '%s' "$entry" | cut -f1)"
+    done
+
+    [ "${#paired_entries[@]}" -gt 0 ] && emit_entry "$ICON_SEPARATOR"
+
+    emit_entry "$ICON_SCANNING"
+
+    # Background scan for new devices
+    printf "scan on\nquit\n" | bluetoothctl >/dev/null 2>&1 &
+
+    sleep 2
+
+    # Stream newly discovered devices not seen before
+    for i in 1 2 3; do
+        sleep "$i"
+        local new_raw; new_raw=$(btctl "devices" | grep "^Device " | sed 's/^Device //')
+        while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            local mac; mac=$(echo "$line" | awk '{print $1}')
+            [ -n "${seen_macs[$mac]+x}" ] && continue
+            seen_macs["$mac"]=1
+            local name; name=$(echo "$line" | cut -d' ' -f2-)
+            emit_entry "$(make_device_line "$mac" "$name" "0" "0")"
+        done <<< "$new_raw"
+    done
+
+    emit_entry "$ICON_SEPARATOR"
+    emit_entry "$ICON_CANCEL"
+}
+
+# ── rofi invocation ───────────────────────────────────────────────────────────
+
+show_bt_menu() {
+    mkfifo "$FIFO"
+    feed_rofi > "$FIFO" &
+    FEED_PID=$!
+
+    local choice
+    choice=$(rofi -dmenu \
+        -p "󰂯 Bluetooth" \
+        -theme-str 'mainbox { children: [ inputbar, listview ]; }' \
+        -hover-select \
+        -me-select-entry '' \
+        -me-accept-entry 'MousePrimary' \
+        -no-fixed-num-lines \
+        -i \
+        -location 3 \
+        -xoffset -0 \
+        -yoffset 10 \
+        -theme "$THEME" \
+        -theme-str 'listview { columns: 1; lines: 10; scrollbar: true; }' \
+        -theme-str 'scrollbar { width: 4px; handle-width: 4px; }' \
+        -theme-str 'window { width: 340px; }' \
+        < "$FIFO")
+
+    kill "$FEED_PID" 2>/dev/null
+    rm -f "$FIFO"
+
+    printf '%s' "$choice"
+}
+
+# ── action handling ───────────────────────────────────────────────────────────
+
+find_mac_by_name() {
+    local target="$1"
+    btctl "devices" | grep "^Device " | sed 's/^Device //' | while IFS= read -r line; do
+        local mac name
+        mac=$(echo "$line" | awk '{print $1}')
+        name=$(echo "$line" | cut -d' ' -f2-)
+        [ "$name" = "$target" ] && { echo "$mac"; return; }
+    done
+}
+
+extract_device_name() {
+    printf '%s' "$1" \
+        | sed 's/^[^ ]*  *//' \
+        | sed 's/ *[✓★] *$//' \
+        | sed 's/^ *//; s/ *$//'
+}
+
+connect_device() {
+    local mac="$1" name="$2"
+    notify "Connecting to $name..."
+    printf "pair %s\ntrust %s\nconnect %s\nquit\n" "$mac" "$mac" "$mac" \
+        | bluetoothctl 2>/dev/null | strip_ansi | grep -q "successful" \
+        && notify "Connected to $name" \
+        || notify "Could not connect to $name"
+}
+
+disconnect_all() {
+    btctl "devices Connected" | grep "^Device " | sed 's/^Device //' | while IFS= read -r line; do
+        local mac name
+        mac=$(echo "$line" | awk '{print $1}')
+        name=$(echo "$line" | cut -d' ' -f2-)
+        printf "disconnect %s\nquit\n" "$mac" | bluetoothctl >/dev/null 2>&1
+        notify "Disconnected $name"
+    done
+}
+
+handle_choice() {
+    local choice="$1"
+    case "$choice" in
+        *"Enable Bluetooth"*)
+            printf "power on\nquit\n" | bluetoothctl >/dev/null 2>&1
+            notify "Bluetooth enabled"; main ;;
+        *"Disable Bluetooth"*)
+            printf "scan off\npower off\nquit\n" | bluetoothctl >/dev/null 2>&1
+            notify "Bluetooth disabled" ;;
+        *"Disconnect"*)
+            disconnect_all ;;
+        *"Start Scanning"*)
+            main ;;
+        *"Open Blueman"*)
+            blueman-manager & ;;
+        "$ICON_CANCEL"|"")
+            exit 0 ;;
+        "$ICON_SEPARATOR"|*"Scanning..."*)
+            ;; # non-interactive rows
+        *)
+            local name; name=$(extract_device_name "$choice")
+            if [ -n "$name" ]; then
+                local mac; mac=$(find_mac_by_name "$name")
+                if [ -n "$mac" ]; then
+                    connect_device "$mac" "$name"
+                else
+                    notify "Device not found: $name"
+                fi
+            fi ;;
+    esac
+}
+
+main() {
+    local choice; choice=$(show_bt_menu)
+    handle_choice "$choice"
+}
+
+main

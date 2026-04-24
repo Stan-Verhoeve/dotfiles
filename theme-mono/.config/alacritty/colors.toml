@@ -1,0 +1,25 @@
+[colors]
+primary.background = "#0f0f0f"
+primary.foreground = "#e8e8e8"
+
+normal.black   = "#0f0f0f"
+normal.red     = "#888888"
+normal.green   = "#e0e0e0"
+normal.yellow  = "#999999"
+normal.blue    = "#666666"
+normal.magenta = "#888888"
+normal.cyan    = "#aaaaaa"
+normal.white   = "#e8e8e8"
+
+bright.black   = "#3a3a3a"
+bright.red     = "#aaaaaa"
+bright.green   = "#ffffff"
+bright.yellow  = "#cccccc"
+bright.blue    = "#999999"
+bright.magenta = "#bbbbbb"
+bright.cyan    = "#dddddd"
+bright.white   = "#ffffff"
+
+[window]
+opacity = 0.5
+dynamic_title = true
