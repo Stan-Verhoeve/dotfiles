@@ -17,7 +17,7 @@
 }
 
 window {
-    background-color: @bg;
+    background-color: rgba(42, 0, 61, 0.85);
     border:           3px;
     border-color:     @border-c;
     border-radius:    12px;
