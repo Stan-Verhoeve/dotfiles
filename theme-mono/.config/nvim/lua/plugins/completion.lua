@@ -60,7 +60,7 @@ return {
       },
       snippets = { preset = "luasnip" },
       fuzzy = { implementation = "lua" },
-      signature = { enabled = false },
+      signature = { enabled = true, window = { border = "rounded" } },
     },
   },
 }
