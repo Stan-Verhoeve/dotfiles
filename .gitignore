@@ -9,4 +9,4 @@
 .DS_Store
 
 # lazy.nvim lock file (pin versions by committing this if desired)
-nvim/.config/nvim/lazy-lock.json
+lazy-lock.json
