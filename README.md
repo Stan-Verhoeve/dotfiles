@@ -19,7 +19,25 @@ I've opted for two themes. I'm a big sucker for neon and purple, so one theme is
 | ![](./assets/neon_bare.png) | ![](./assets/neon_btop_fastfetch_term_rofi.png) |
 
 ## Theme switching and stow
-I've organized each theme directory to contain the .config for all applications I'm using, and stowing this entire theme-dir. This is indeed also how the [switch-theme](./switch-theme.sh) script functions: it unstows the themes, and stows the new theme (and also kills and restarts all processes (e.g. waybar))
+
+
+Each theme directory contains an app per subdirectory (e.g. `theme-mono/nvim/`, `theme-mono/kitty/`), so you can stow exactly what you need. A `.stowrc` at the repo root sets `--dotfiles` automatically, which maps `dot-config/` --> `.config/` etc.
+
+To stow everything:
+```
+stow -d theme-mono -t ~ alacritty bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar wlogout wofi
+```
+
+Or just pick what you want:
+```
+stow -d theme-mono -t ~ nvim btop bash
+```
+
+The [switch-theme](./switch-theme.sh) script handles unstowing the old theme, stowing the new one, and restarting relevant processes (waybar, dunst, hyprpaper, kitty). It also accepts an optional app list:
+```
+./switch-theme.sh mono                  # full desktop
+./switch-theme.sh mono nvim btop bash   # minimal
+```
 
 ## Todos
 - [x] Have apps as atomic building block
