@@ -13,8 +13,8 @@ else
     MENU="$VPN_LIST"
 fi
 
-# Show the menu using wofi
-CHOICE=$(printf "%s" "$MENU" | wofi --dmenu -p "VPN:")
+THEME="$HOME/.config/rofi/powermenu.rasi"
+CHOICE=$(printf "%s" "$MENU" | rofi -dmenu -p "VPN:" -theme "$THEME")
 
 # Handle selection
 if [ "$CHOICE" = "Disconnect" ]; then

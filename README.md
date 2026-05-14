@@ -25,7 +25,7 @@ Each theme directory contains an app per subdirectory (e.g. `theme-mono/nvim/`, 
 
 To stow everything:
 ```
-stow -d theme-mono -t ~ alacritty bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar wlogout wofi
+stow -d theme-mono -t ~ bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar wlogout
 ```
 
 Or just pick what you want:
