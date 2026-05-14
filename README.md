@@ -29,7 +29,6 @@ I've opted for two themes. I'm a big sucker for neon and purple, so one theme is
 | Terminal | [Kitty](https://sw.kovidgoyal.net/kitty) |
 | Shell | [Bash](https://www.gnu.org/software/bash) |
 | Editor | [Neovim](https://neovim.io) |
-| Browser | [Firefox](https://www.mozilla.org/firefox) |
 | File Manager | [Thunar](https://docs.xfce.org/xfce/thunar/start) |
 | Bar | [Waybar](https://github.com/Alexays/Waybar) |
 | Launcher | [Rofi](https://github.com/davatorium/rofi) |
@@ -46,8 +45,8 @@ Each theme directory contains an app per subdirectory (e.g. `theme-mono/nvim/`, 
 
 To stow everything:
 ```
-stow -d theme-mono -t ~ bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar
-stow -d theme-neon -t ~ bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar
+stow -d theme-mono -t ~ bash btop colors dunst gtk hypr kitty nvim rofi waybar
+stow -d theme-neon -t ~ bash btop colors dunst gtk hypr kitty nvim rofi waybar
 ```
 
 Or just pick what you want:
