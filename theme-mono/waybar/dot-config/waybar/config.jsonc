@@ -83,7 +83,6 @@
       "[██]"
     ],
     "on-click": "/home/stan/.config/waybar/scripts/wifi-menu-rofi"
-    // "on-click": "alacritty -e nmtui"
   },
 
   "network#vpn": {

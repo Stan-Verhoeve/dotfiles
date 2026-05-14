@@ -4,6 +4,7 @@ My configuration files for my Hyprland-based Linux desktop. Still learning how t
 
 I've opted for two themes. I'm a big sucker for neon and purple, so one theme is heavily inspired by the colour scheme of the ['Let you down' music video](https://www.youtube.com/watch?v=BnnbP7pCIvQ) from Cyberpunk. The other theme uses the same layouts, but is fully monochrome for a sharper look. They live in their own subdir
 
+
 ## Showcase
 
 ### Mono
@@ -18,6 +19,26 @@ I've opted for two themes. I'm a big sucker for neon and purple, so one theme is
 |:---:|:---:|
 | ![](./assets/neon_bare.png) | ![](./assets/neon_btop_fastfetch_term_rofi.png) |
 
+
+## Programs
+
+| Component | Program |
+|---|---|
+| Operating System | [EndeavourOS](https://endeavouros.com) |
+| Window Manager | [Hyprland](https://hyprland.org) |
+| Terminal | [Kitty](https://sw.kovidgoyal.net/kitty) |
+| Shell | [Bash](https://www.gnu.org/software/bash) |
+| Editor | [Neovim](https://neovim.io) |
+| Browser | [Firefox](https://www.mozilla.org/firefox) |
+| File Manager | [Thunar](https://docs.xfce.org/xfce/thunar/start) |
+| Bar | [Waybar](https://github.com/Alexays/Waybar) |
+| Launcher | [Rofi](https://github.com/davatorium/rofi) |
+| Notifications | [Dunst](https://dunst-project.org) |
+| Wallpaper | [Hyprpaper](https://github.com/hyprwm/hyprpaper) |
+| Lockscreen | [Hyprlock](https://github.com/hyprwm/hyprlock) |
+| Fetch | [Fastfetch](https://github.com/fastfetch-cli/fastfetch) |
+| System Monitor | [Btop](https://github.com/aristocratos/btop) |
+
 ## Theme switching and stow
 
 
@@ -26,11 +47,13 @@ Each theme directory contains an app per subdirectory (e.g. `theme-mono/nvim/`, 
 To stow everything:
 ```
 stow -d theme-mono -t ~ bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar
+stow -d theme-neon -t ~ bash btop colors dunst firefox gtk hypr kitty nvim rofi waybar
 ```
 
 Or just pick what you want:
 ```
 stow -d theme-mono -t ~ nvim btop bash
+stow -d theme-neon -t ~ nvim btop bash
 ```
 
 The [switch-theme](./switch-theme.sh) script handles unstowing the old theme, stowing the new one, and restarting relevant processes (waybar, dunst, hyprpaper, kitty). It also accepts an optional app list:
