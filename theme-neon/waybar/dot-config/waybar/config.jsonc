@@ -181,7 +181,6 @@
   "custom/power": {
     "format": "⏻",
     "tooltip": false,
-    // "on-click": "exec wlogout -b 3 -c 3 -r 1 -p layer-shell"
     "on-click": "/home/stan/.config/waybar/scripts/power-menu"
   }
 }
