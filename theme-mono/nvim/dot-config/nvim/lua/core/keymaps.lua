@@ -20,6 +20,26 @@ vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
 vim.keymap.set("n", "<up>", '<cmd>echo "Use k to move!!"<CR>')
 vim.keymap.set("n", "<down>", '<cmd>echo "Use j to move!!"<CR>')
 
+-- Run current file in a terminal split
+local ft_runners = {
+  python = "python3",
+  lua = "lua",
+  sh = "bash",
+  bash = "bash",
+  javascript = "node",
+  typescript = "ts-node",
+  ruby = "ruby",
+  perl = "perl",
+}
+vim.keymap.set("n", "<leader>r", function()
+  local ft = vim.bo.filetype
+  local file = vim.fn.expand("%")
+  local runner = ft_runners[ft]
+  local cmd = runner and ("split | term " .. runner .. " " .. file)
+    or ("split | term ./" .. file)
+  vim.cmd(cmd)
+end, { desc = "[R]un current file" })
+
 -- Split navigation using Ctrl + h/j/k/l
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
