@@ -32,6 +32,7 @@ local ft_runners = {
   perl = "perl",
 }
 vim.keymap.set("n", "<leader>r", function()
+  vim.cmd("write")
   local ft = vim.bo.filetype
   local file = vim.fn.expand("%")
   local runner = ft_runners[ft]
