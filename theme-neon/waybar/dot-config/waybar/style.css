@@ -60,12 +60,14 @@ tooltip {
   border-radius: 999px;
   padding: 0 2px;
   font-weight: normal;
+  transition: background 200ms ease, color 200ms ease, padding 200ms ease;
 }
 
 #workspaces button.active {
   color: @bg;
   background: @border;
   font-weight: bold;
+  padding: 0 25px;
 }
 
 #workspaces button:hover {
