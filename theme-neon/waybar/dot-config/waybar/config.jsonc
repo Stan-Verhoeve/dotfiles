@@ -119,7 +119,7 @@
   },
 
   "clock": {
-    "format": "{:%a %d %b %R}",
+    "format": "{:%a | %d %b | %R}",
     "tooltip": false,
     "on-click": "xdg-open https://calendar.google.com"
   },

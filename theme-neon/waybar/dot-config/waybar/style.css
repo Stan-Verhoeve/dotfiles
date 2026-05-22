@@ -31,7 +31,7 @@ tooltip {
   background: @bg;
   color: @fg;
   border: 1px solid @maintxt;
-  border-radius: 4px;
+  border-radius: 6px 6px 25px 25px;
   padding: 4px 6px;
   font-size: 0.85em;
 }
@@ -57,7 +57,7 @@ tooltip {
   color: @alttxt;
   background: transparent;
   border: none;
-  border-radius: 999px;
+  border-radius: 4px 25px 4px 25px;
   padding: 0 2px;
   font-weight: normal;
   transition: background 200ms ease, color 200ms ease, padding 200ms ease;
@@ -106,12 +106,25 @@ window.bar2 #workspaces button:hover {
 #custom-power,
 #workspaces {
   background-color: @pill_bg;
-  border-radius: 20px;
   margin: 4px;
   padding: 4px 8px;
   border: 2px solid @border;
   transition: background-color 200ms ease, border-color 200ms ease;
 }
+
+/* Left modules: round top-right + bottom-left */
+#workspaces,
+#tray { border-radius: 6px 25px 6px 25px; }
+
+/* Center module: round bottom-right + bottom-left */
+#clock { border-radius: 6px 6px 25px 25px; }
+
+/* Right modules: round top-left + bottom-right */
+#bluetooth,
+#network,
+#wireplumber,
+#battery,
+#custom-power { border-radius: 25px 6px 25px 6px; }
 
 #clock:hover,
 #network:hover,
