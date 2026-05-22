@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+maxlength=35
+
+text=$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null)
+
+if [ ${#text} -gt $maxlength ]; then
+    text="${text:0:$((maxlength - 3))}..."
+fi
+
+playerctl metadata \
+    --format '{"text": "'"$text"'", "tooltip": "{{playerName}}: {{artist}} - {{title}}"}' \
+    2>/dev/null

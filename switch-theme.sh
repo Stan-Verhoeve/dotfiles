@@ -50,7 +50,23 @@ done
 
 # Restart desktop services for relevant stowed apps
 stowed=" ${APPS[*]} "
-[[ $stowed == *" hypr "* ]]   && hyprctl reload 2>/dev/null || true
+if [[ $stowed == *" hypr "* ]]; then
+  # Snapshot active workspace per monitor: "name ws_id focused"
+  _snapshots=$(hyprctl monitors 2>/dev/null | awk '
+    /^Monitor /       { mon = $2 }
+    /active workspace:/ { ws = $3 }
+    /focused:/        { print mon, ws, ($NF == "yes" ? 1 : 0) }
+  ')
+  hyprctl reload 2>/dev/null || true
+  # Restore non-focused monitors first, then focused last so focus ends up in the right place
+  for _pass in 0 1; do
+    while IFS=' ' read -r _mon _ws _focused; do
+      [[ "$_focused" == "$_pass" ]] || continue
+      hyprctl dispatch focusmonitor "$_mon" 2>/dev/null || true
+      hyprctl dispatch workspace "$_ws" 2>/dev/null || true
+    done <<< "$_snapshots"
+  done
+fi
 [[ $stowed == *" waybar "* ]] && { pkill waybar 2>/dev/null || true; waybar >/dev/null 2>&1 & disown; }
 [[ $stowed == *" dunst "* ]]  && { pkill dunst  2>/dev/null || true; dunst  >/dev/null 2>&1 & disown; }
 [[ $stowed == *" hypr "* ]]   && { pkill hyprpaper 2>/dev/null || true; hyprpaper >/dev/null 2>&1 & disown; }

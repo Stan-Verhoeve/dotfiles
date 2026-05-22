@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Application launcher
 # Place at ~/.local/bin/launcher.sh and chmod +x
 

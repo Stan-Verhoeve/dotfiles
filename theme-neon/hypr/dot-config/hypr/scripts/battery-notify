@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Monitor battery level and send system notifications at warning/critical thresholds.
 # Event-driven via upower — only runs when the kernel reports a battery change.
 # Designed to run as a background daemon on login.

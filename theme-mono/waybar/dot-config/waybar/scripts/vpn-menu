@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Get all VPN connections from NetworkManager
 VPN_LIST=$(nmcli -t -f NAME,TYPE connection show | grep vpn | cut -d: -f1)
