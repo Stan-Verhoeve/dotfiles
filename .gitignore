@@ -10,3 +10,7 @@
 
 # lazy.nvim lock file (pin versions by committing this if desired)
 lazy-lock.json
+
+# cava auto-generated directories
+**/cava/dot-config/cava/shaders/
+**/cava/dot-config/cava/themes/
