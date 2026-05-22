@@ -73,6 +73,7 @@ tooltip {
 #workspaces button:hover {
   background: @alttxt;
   color: @bg;
+  padding: 0 25px;
 }
 
 /* Bar2 workspace overrides */
@@ -101,7 +102,7 @@ window.bar2 #workspaces button:hover {
 #battery,
 #wireplumber,
 #bluetooth,
-#window,
+#tray,
 #custom-power,
 #workspaces {
   background-color: @pill_bg;
@@ -109,4 +110,13 @@ window.bar2 #workspaces button:hover {
   margin: 4px;
   padding: 4px 8px;
   border: 2px solid @border;
+  transition: background-color 200ms ease, border-color 200ms ease;
+}
+
+#clock:hover,
+#network:hover,
+#wireplumber:hover,
+#bluetooth:hover,
+#custom-power:hover {
+  border-color: @maintxt;
 }

@@ -8,10 +8,10 @@
   // Order of modules
   "modules-left": [
     "hyprland/workspaces",  // 'Desktops' of sorts
-    "clock"
+    "tray"
   ],
   "modules-center": [
-    "hyprland/window"  // Current active window
+    "clock"
   ],
   "modules-right": [
     "bluetooth",
@@ -43,10 +43,8 @@
     }
   },
 
-  "hyprland/window": {
-    "format": "{title}",
-    "max-length": 40, // comment out if you have enough space
-    "all-outputs": false
+  "tray": {
+    "spacing": 6
   },
 
   "bluetooth": {
@@ -122,28 +120,8 @@
 
   "clock": {
     "format": "{:%a %d %b %R}",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
-    "calendar": {
-      "mode": "year",
-      "mode-mon-col": 3,
-      "weeks-pos": "right",
-      "on-scroll": 1,
-      "format": {
-        "months":     "<span color='#ffb7ff'>{}</span>",
-        "days":       "<span color='#ff66cc'><b>{}</b></span>",
-        "weeks":      "<span color='#00fff7'><b>W{}</b></span>",
-        "weekdays":   "<span color='#00fff7'><b>{}</b></span>",
-        "today":      "<span color='#ffff00'><b><u>{}</u></b></span>"
-      }
-    },
+    "tooltip": false,
     "on-click": "xdg-open https://calendar.google.com"
-  /*"actions": {
-      "on-click-right": "mode",
-      "on-click-forward": "tz_up",
-      "on-click-backward": "tz_down",
-      "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down"
-    }*/
   },
 
   "battery": {
