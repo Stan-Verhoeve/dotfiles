@@ -38,6 +38,9 @@ require("lazy").setup({
   require("plugins.markview"),
   require("plugins.oil"),
   require("plugins.neo-img"),
+  require("plugins.colorizer"),
+  require("plugins.diffview"),
+  require("plugins.trouble"),
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
