@@ -62,8 +62,8 @@ if [[ $stowed == *" hypr "* ]]; then
   for _pass in 0 1; do
     while IFS=' ' read -r _mon _ws _focused; do
       [[ "$_focused" == "$_pass" ]] || continue
-      hyprctl dispatch focusmonitor "$_mon" 2>/dev/null || true
-      hyprctl dispatch workspace "$_ws" 2>/dev/null || true
+      hyprctl dispatch "hl.dsp.focus({monitor = '$_mon'})" 2>/dev/null || true
+      hyprctl dispatch "hl.dsp.focus({workspace = '$_ws'})" 2>/dev/null || true
     done <<< "$_snapshots"
   done
 fi
@@ -71,5 +71,6 @@ fi
 [[ $stowed == *" dunst "* ]]  && { pkill dunst  2>/dev/null || true; dunst  >/dev/null 2>&1 & disown; }
 [[ $stowed == *" hypr "* ]]   && { pkill hyprpaper 2>/dev/null || true; hyprpaper >/dev/null 2>&1 & disown; }
 [[ $stowed == *" kitty "* ]]  && pkill -USR1 kitty 2>/dev/null || true
+[[ $stowed == *" cava "* ]]   && { pkill cava   2>/dev/null || true; }
 
 echo "Switched to theme-$THEME (${APPS[*]})."
