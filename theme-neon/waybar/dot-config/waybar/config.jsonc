@@ -1,3 +1,4 @@
+// Requires waybar-git (AUR) for Hyprland 0.55+ IPC compatibility.
 {
   "name": "bar1",
   "position": "top",  // Where to place waybar
@@ -53,7 +54,7 @@
     "format-disabled": "", // an empty format will hide the module
     "format-connected": "BT: {device_alias}",
     "format-connected-battery": "BT: {device_alias} {device_battery_percentage}%",
-    "on-click": "/home/stan/.config/waybar/scripts/bluetooth-menu"
+    "on-click": "~/.config/waybar/scripts/bluetooth-menu"
     // "on-click": "blueman-manager"
   },
 
@@ -80,7 +81,7 @@
       "[█▉]",
       "[██]"
     ],
-    "on-click": "/home/stan/.config/waybar/scripts/wifi-menu-rofi"
+    "on-click": "~/.config/waybar/scripts/wifi-menu-rofi"
   },
 
   "network#vpn": {
@@ -88,7 +89,7 @@
     "format": "VPN",
     "format-disconnected": "<span color='#777'>VPN</span>",
     "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
-    "on-click": "/home/stan/.config/waybar/scripts/vpn-menu"
+    "on-click": "~/.config/waybar/scripts/vpn-menu"
   },
 
   "wireplumber": {
@@ -134,7 +135,7 @@
     "format": "BAT:{icon}{capacity}%[AC]",  // Format when charging
     "format-discharging": "BAT:{icon}{capacity}%",  // Format when not charging
     "tooltip": true,  // Show estimated battery life
-    "interval": 1,  // How often to refresh
+    "interval": 60,  // How often to refresh
     "format-icons": [
       "[▏ ]",
       "[▎ ]",
@@ -158,6 +159,6 @@
   "custom/power": {
     "format": "⏻",
     "tooltip": false,
-    "on-click": "/home/stan/.config/waybar/scripts/power-menu"
+    "on-click": "~/.config/waybar/scripts/power-menu"
   }
 }
