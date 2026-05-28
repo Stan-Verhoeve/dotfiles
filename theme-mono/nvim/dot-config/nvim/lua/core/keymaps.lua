@@ -34,10 +34,12 @@ local ft_runners = {
 vim.keymap.set("n", "<leader>r", function()
   vim.cmd("write")
   local ft = vim.bo.filetype
-  local file = vim.fn.expand("%")
+  local file = vim.fn.expand("%:p")
+  local dir  = vim.fn.expand("%:p:h")
   local runner = ft_runners[ft]
-  local cmd = runner and ("split | term " .. runner .. " " .. file)
-    or ("split | term ./" .. file)
+  local cmd = runner
+    and ("split | term cd " .. dir .. " && " .. runner .. " " .. file)
+    or  ("split | term cd " .. dir .. " && ./" .. file)
   vim.cmd(cmd)
 end, { desc = "[R]un current file" })
 
