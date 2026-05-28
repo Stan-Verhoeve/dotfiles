@@ -21,26 +21,9 @@ rtp:prepend(lazypath)
 
 -- Load all plugin configs (each plugin in its own file)
 require("lazy").setup({
-  require("plugins.telescope"),
-  require("plugins.lsp"),
-  require("plugins.completion"),
-  require("plugins.treesitter"),
-  require("plugins.gitsigns"),
-  require("plugins.whichkey"),
-  require("plugins.lazydev"),
-  require("plugins.conform"),
-  require("plugins.colorscheme"),
-  require("plugins.todocomments"),
-  require("plugins.mini"),
-  require("plugins.guessindent"),
-  require("plugins.signature"),
-  require("plugins.vimtex"),
-  require("plugins.markview"),
-  require("plugins.oil"),
-  require("plugins.neo-img"),
-  require("plugins.colorizer"),
-  require("plugins.diffview"),
-  require("plugins.trouble"),
+  spec = {
+    { import = "plugins" },
+  },
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
