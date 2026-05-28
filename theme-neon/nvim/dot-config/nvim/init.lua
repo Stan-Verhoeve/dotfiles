@@ -8,7 +8,7 @@
     - lua/core/autocmds.lua   : Autocommands
     - lua/plugins/            : Plugin configurations (one file per plugin)
 
-  See lua/plugins/lazy.lua to add new plugins.
+  See lua/core/lazy.lua to add new plugins.
 --]]
 
 -- Set <space> as the leader key (must happen before plugins load)
@@ -35,7 +35,7 @@ require("core.clipboard")
 vim.o.termguicolors = true
 
 -- Load lazy.nvim plugin manager and all plugins
-require("plugins.lazy")
+require("core.lazy")
 
 -- Apply after plugins so nothing overrides these
 vim.cmd([[
