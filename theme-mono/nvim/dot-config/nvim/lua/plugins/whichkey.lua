@@ -50,6 +50,8 @@ return {
       { "<leader>g", group = "[G]it" },
       { "<leader>m", group = "[M]olten" },
       { "<leader>x", group = "Trouble / Diagnostics" },
+      { "<leader>a", group = "[A]I / Claude" },
+      { "<leader>n", group = "[N]otifications" },
     },
   },
 }

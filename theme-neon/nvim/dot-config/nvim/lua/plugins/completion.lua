@@ -23,7 +23,7 @@ return {
           return "make install_jsregexp"
         end)(),
         dependencies = {
-          -- 'rafamadriz/friendly-snippets',
+          "rafamadriz/friendly-snippets",
         },
         opts = {},
       },
@@ -38,11 +38,11 @@ return {
         nerd_font_variant = "mono",
       },
       completion = {
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
       },
       sources = {
         default = function(ctx)                     -- [2] Changed from table to function
-          local list = { "lsp", "path", "snippets", "lazydev" }
+          local list = { "lsp", "path", "snippets", "buffer", "lazydev" }
           table.insert(list, "bibtex")
           return list
         end,

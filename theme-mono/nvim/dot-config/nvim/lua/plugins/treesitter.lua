@@ -31,6 +31,7 @@ return {
     local ensure_installed = {
       "bash",
       "c",
+      "cpp",
       "diff",
       "html",
       "lua",
@@ -38,6 +39,7 @@ return {
       "latex",
       "markdown",
       "markdown_inline",
+      "python",
       "query",
       "vim",
       "vimdoc",

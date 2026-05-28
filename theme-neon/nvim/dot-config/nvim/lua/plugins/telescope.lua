@@ -17,19 +17,13 @@ return {
         return vim.fn.executable("make") == 1
       end,
     },
-    { "nvim-telescope/telescope-ui-select.nvim" },
     { "nvim-tree/nvim-web-devicons", enabled = vim.g.have_nerd_font },
   },
   config = function()
     local telescope = require("telescope")
-    telescope.setup({
-      extensions = {
-        ["ui-select"] = require("telescope.themes").get_dropdown(),
-      },
-    })
+    telescope.setup({})
 
     pcall(require("telescope").load_extension, "fzf")
-    pcall(require("telescope").load_extension, "ui-select")
 
     -- Keymaps for telescope
     local builtin = require("telescope.builtin")

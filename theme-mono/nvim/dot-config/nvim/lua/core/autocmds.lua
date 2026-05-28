@@ -15,7 +15,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 
 -- Use spaces instead of tabs for C/C++ files
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "c",
+  pattern = { "c", "cpp" },
   callback = function()
     vim.opt_local.expandtab = true -- Use spaces instead of tabs
     vim.opt_local.shiftwidth = 4 -- Indent size
