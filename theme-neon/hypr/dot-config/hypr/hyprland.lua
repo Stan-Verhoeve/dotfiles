@@ -138,17 +138,23 @@ hl.bind(mainMod .. " + V",           hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + R",           hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + W",           hl.dsp.exec_cmd(windowSearch))
 hl.bind(mainMod .. " + P",           hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J",           hl.dsp.layout("togglesplit"))
+hl.bind(mainMod .. " + SHIFT + J",   hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + F",           hl.dsp.exec_cmd("firefox"))
-hl.bind(mainMod .. " + L",           hl.dsp.exec_cmd("hyprlock"))
+hl.bind(mainMod .. " + SHIFT + L",   hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + S",           hl.dsp.exec_cmd("slack"))
 hl.bind(mainMod .. " + SHIFT + S",   hl.dsp.exec_cmd("~/.config/hypr/scripts/screenshot.sh"))
 
 -- Focus with arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left"  }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up"    }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down"  }))
+-- hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left"  }))
+-- hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
+-- hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up"    }))
+-- hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down"  }))
+
+-- Focus with hjkl
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "left"  }))
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up"    }))
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down"  }))
 
 -- Workspaces (split-monitor-workspaces — per-monitor independent sets)
 for i = 1, smw.get_amount_of_workspaces() do
