@@ -9,15 +9,15 @@ I've opted for two themes. I'm a big sucker for neon and purple, so one theme is
 
 ### Mono
 
-| Bare | btop · fastfetch · terminal · rofi |
+| Bare | btop · fastfetch · cava |
 |:---:|:---:|
-| ![](./assets/mono_bare.png) | ![](./assets/mono_btop_fastfetch_term_rofi.png) |
+| ![](./assets/mono_bare.png) | ![](./assets/mono_fastfetch_btop_cava.png.png) |
 
 ### Neon
 
-| Bare | btop · fastfetch · terminal · rofi |
+| Bare | btop · fastfetch · cava |
 |:---:|:---:|
-| ![](./assets/neon_bare.png) | ![](./assets/neon_btop_fastfetch_term_rofi.png) |
+| ![](./assets/neon_bare.png) | ![](./assets/neon_fastfetch_btop_cava.png.png) |
 
 
 ## Programs
@@ -45,14 +45,12 @@ Each theme directory contains an app per subdirectory (e.g. `theme-mono/nvim/`, 
 
 To stow everything:
 ```
-stow -d theme-mono -t ~ bash btop colors dunst gtk hypr kitty nvim rofi waybar
-stow -d theme-neon -t ~ bash btop colors dunst gtk hypr kitty nvim rofi waybar
+stow -d theme-<theme> -t ~ bash btop cava colors dunst fastfetch gtk hypr kitty nvim rofi waybar
 ```
 
 Or just pick what you want:
 ```
-stow -d theme-mono -t ~ nvim btop bash
-stow -d theme-neon -t ~ nvim btop bash
+stow -d theme-<theme> -t ~ nvim btop bash
 ```
 
 The [switch-theme](./switch-theme.sh) script handles unstowing the old theme, stowing the new one, and restarting relevant processes (waybar, dunst, hyprpaper, kitty). It also accepts an optional app list:
@@ -63,4 +61,6 @@ The [switch-theme](./switch-theme.sh) script handles unstowing the old theme, st
 
 ## Todos
 - [x] Have apps as atomic building block
+- [ ] Make Wi-Fi, VPN, Bluetooth menus more appealing
+- [ ] Make rofi in general more appealing
 - [ ] Let me know? 
