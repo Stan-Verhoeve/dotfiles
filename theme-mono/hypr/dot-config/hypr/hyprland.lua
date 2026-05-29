@@ -156,6 +156,12 @@ hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "up"    }))
 hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "down"  }))
 
+-- Resize tiled windows with arrow keys
+hl.bind(mainMod .. " + SHIFT + left",  hl.dsp.window.resize({ x = -20, y =   0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + right", hl.dsp.window.resize({ x =  20, y =   0, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + up",    hl.dsp.window.resize({ x =   0, y = -20, relative = true }), { repeating = true })
+hl.bind(mainMod .. " + SHIFT + down",  hl.dsp.window.resize({ x =   0, y =  20, relative = true }), { repeating = true })
+
 -- Workspaces (split-monitor-workspaces — per-monitor independent sets)
 for i = 1, smw.get_amount_of_workspaces() do
     local n = tostring(i)
