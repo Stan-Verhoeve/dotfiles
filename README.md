@@ -11,13 +11,13 @@ I've opted for two themes. I'm a big sucker for neon and purple, so one theme is
 
 | Bare | btop · fastfetch · cava |
 |:---:|:---:|
-| ![](./assets/mono_bare.png) | ![](./assets/mono_fastfetch_btop_cava.png.png) |
+| ![](./assets/mono_bare.png) | ![](./assets/mono_fastfetch_btop_cava.png) |
 
 ### Neon
 
 | Bare | btop · fastfetch · cava |
 |:---:|:---:|
-| ![](./assets/neon_bare.png) | ![](./assets/neon_fastfetch_btop_cava.png.png) |
+| ![](./assets/neon_bare.png) | ![](./assets/neon_fastfetch_btop_cava.png) |
 
 
 ## Programs
