@@ -5,7 +5,8 @@ export LS_OPTIONS="--color=auto"
 if command -v dircolors >/dev/null 2>&1; then
     eval "$(dircolors -b)"
 fi
-export LS_COLORS=$LS_COLORS:"di=1;3:*.zip=0;4;31"
+export LS_COLORS="$LS_COLORS:di=1;4:*.zip=0;4;31"
+export TREE_COLORS="di=1;4"
 
 force_color_prompt=yes
 
@@ -103,7 +104,7 @@ parse_git_branch() {
 }
 
 # Set PS1 to include git branch
-PS1='\[\e[32m\](\w) $(parse_git_branch)\n\[\e[32m\]❯❯ \[\e[0m\]'
+PS1='\[\e[0m\](\w) $(parse_git_branch)\n\[\e[32m\]❯❯ \[\e[0m\]'
 
 # Set terminal title to current dir
 update_terminal_title() {
