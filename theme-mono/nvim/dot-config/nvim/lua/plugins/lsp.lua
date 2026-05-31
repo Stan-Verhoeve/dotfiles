@@ -61,8 +61,6 @@ return {
             "--background-index",
             "--clang-tidy",
             "--completion-style=detailed",
-            -- Add your GSL include path here:
-            "--extra-arg=-I/nix/store/0hjm57cxss3rypj1c8q5s68ahns07x8i-gsl-2.7.1-dev/include",
           },
         },
         basedpyright = {},
