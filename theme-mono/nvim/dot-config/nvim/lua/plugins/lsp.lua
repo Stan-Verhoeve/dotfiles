@@ -109,25 +109,25 @@ return {
           map("gra", vim.lsp.buf.code_action, "[G]oto Code [A]ction", { "n", "x" })
 
           -- References
-          map("grr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
+          map("grr", function() Snacks.picker.lsp_references() end, "[G]oto [R]eferences")
 
           -- Implementation
-          map("gri", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
+          map("gri", function() Snacks.picker.lsp_implementations() end, "[G]oto [I]mplementation")
 
           -- Definition
-          map("grd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+          map("grd", function() Snacks.picker.lsp_definitions() end, "[G]oto [D]efinition")
 
           -- Declaration
           map("grD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
           -- Document symbols
-          map("gO", require("telescope.builtin").lsp_document_symbols, "Open Document Symbols")
+          map("gO", function() Snacks.picker.lsp_symbols() end, "Open Document Symbols")
 
           -- Workspace symbols
-          map("gW", require("telescope.builtin").lsp_dynamic_workspace_symbols, "Open Workspace Symbols")
+          map("gW", function() Snacks.picker.lsp_workspace_symbols() end, "Open Workspace Symbols")
 
           -- Type definition
-          map("grt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype Definition")
+          map("grt", function() Snacks.picker.lsp_type_definitions() end, "[G]oto [T]ype Definition")
 
           -- Helper: check if client supports method
           local function client_supports_method(client, method, bufnr)
