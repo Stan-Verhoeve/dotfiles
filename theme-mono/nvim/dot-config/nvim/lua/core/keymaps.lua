@@ -38,8 +38,8 @@ vim.keymap.set("n", "<leader>r", function()
   local dir  = vim.fn.expand("%:p:h")
   local runner = ft_runners[ft]
   local cmd = runner
-    and ("split | term cd " .. dir .. " && " .. runner .. " " .. file)
-    or  ("split | term cd " .. dir .. " && ./" .. file)
+    and ("split | term cd " .. vim.fn.shellescape(dir) .. " && " .. runner .. " " .. vim.fn.shellescape(file))
+    or  ("split | term cd " .. vim.fn.shellescape(dir) .. " && ./" .. vim.fn.shellescape(file))
   vim.cmd(cmd)
 end, { desc = "[R]un current file" })
 
