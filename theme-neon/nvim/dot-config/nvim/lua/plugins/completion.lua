@@ -43,7 +43,10 @@ return {
       sources = {
         default = function(ctx)                     -- [2] Changed from table to function
           local list = { "lsp", "path", "snippets", "buffer", "lazydev" }
-          table.insert(list, "bibtex")
+          local ft = vim.bo.filetype
+          if ft == "tex" or ft == "bib" or ft == "markdown" then
+            table.insert(list, "bibtex")
+          end
           return list
         end,
         providers = {
