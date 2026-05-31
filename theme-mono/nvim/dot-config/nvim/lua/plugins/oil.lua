@@ -9,6 +9,23 @@ return {
     preview = {
       update_on_cursor_moved = true,
     },
+    keymaps = {
+      ["<CR>"] = {
+        callback = function()
+          local oil = require("oil")
+          local entry = oil.get_cursor_entry()
+          if entry and entry.type == "file" and entry.name:match("%.pdf$") then
+            local dir = oil.get_current_dir()
+            if dir then
+              vim.fn.jobstart({ "xdg-open", dir .. entry.name }, { detach = true })
+            end
+          else
+            oil.select()
+          end
+        end,
+        desc = "Open file, or open PDF externally without leaving oil",
+      },
+    },
   },
   keys = {
     { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
