@@ -26,7 +26,11 @@ return {
   },
   cmd = "Neogit",
   keys = {
-    { "<leader>gg", "<cmd>Neogit<cr>",      desc = "[G]it Neo[g]it" },
+    { "<leader>gg", function()
+        local oil = require("oil")
+        local cwd = oil.get_current_dir() or vim.fn.expand("%:p:h")
+        require("neogit").open({ cwd = cwd })
+      end, desc = "[G]it Neo[g]it" },
     { "<leader>gp", "<cmd>Neogit push<cr>", desc = "[G]it [P]ush" },
     { "<leader>gP", "<cmd>Neogit pull<cr>", desc = "[G]it [P]ull" },
   },
